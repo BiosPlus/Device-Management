@@ -1,0 +1,40 @@
+{
+  "toOverwrite": {
+      "Value": {
+          "filterLists": [
+              "ublock-filters",
+              "ublock-badware",
+              "ublock-privacy",
+              "ublock-abuse",
+              "ublock-unbreak",
+              "ublock-quick-fixes",
+              "easylist",
+              "easyprivacy",
+              "urlhaus-1",
+              "plowe-0",
+              "curben-phishing"
+          ]
+      }
+  },
+  "toAdd": {
+      "Value": {
+          "trustedSiteDirectives": [
+              "about-scheme",
+              "behind-the-scene",
+              "chrome-extension-scheme",
+              "chrome-scheme",
+              "edge-scheme",
+              "moz-extension-scheme",
+              "opera-scheme",
+              "vivaldi-scheme",
+              "wyciwyg-scheme",
+              "domain.com",
+              "domain.edu.au",
+              "domain.es",
+              "domain.fr",
+              "domain.org.uk",
+              "localhost"
+          ]
+      }
+  }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDisplayName</key>
+			<string>Safari</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.Safari.911EC0DC-96AD-4535-B6A2-F10352525E9E</string>
+			<key>PayloadType</key>
+			<string>com.apple.Safari</string>
+			<key>PayloadUUID</key>
+			<string>E51076F0-B7C3-4043-8F5E-DC7ACEC5A46C</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Safari.mobileconfig</string>
+	<key>PayloadIdentifier</key>
+	<string>com.apple.safari.profile</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>B1F04334-8C69-4747-A54D-243AA818527B</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

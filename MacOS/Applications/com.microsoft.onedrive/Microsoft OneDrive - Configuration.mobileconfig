@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>DisableTutorial</key>
+			<true/>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft OneDrive</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.OneDrive.46385CCD-4F3C-46A7-9464-9BF70006B1BD</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.OneDrive</string>
+			<key>PayloadUUID</key>
+			<string>46385CCD-4F3C-46A7-9464-9BF70006B1BD</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Microsoft OneDrive</string>
+	<key>PayloadIdentifier</key>
+	<string>com.microsoft.onedrive.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>753C4286-B928-44FB-BE00-E12847106537</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

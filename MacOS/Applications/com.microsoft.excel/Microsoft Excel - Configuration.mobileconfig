@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft Excel</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.Excel.F29DEE90-EB7C-49B3-A1B6-EBEEF4340325</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.Excel</string>
+			<key>PayloadUUID</key>
+			<string>F29DEE90-EB7C-49B3-A1B6-EBEEF4340325</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>SendCrashReportsEvenWithTelemetryDisabled</key>
+			<false/>
+			<key>SignInOptions</key>
+			<integer>2</integer>
+			<key>kFREEnterpriseTelemetryInfoKey</key>
+			<true/>
+			<key>kFRETelemetryConsentKey</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Microsoft Excel</string>
+	<key>PayloadIdentifier</key>
+	<string>com.microsoft.excel.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>CFEFC65C-B988-46C6-B464-A498552DE869</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

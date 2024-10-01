@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft Office 365 Service</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.Office365ServiceV2.04643F02-924F-4AED-941F-191F04C835CD</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.Office365ServiceV2</string>
+			<key>PayloadUUID</key>
+			<string>04643F02-924F-4AED-941F-191F04C835CD</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>SendAllTelemetryEnabled</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>DefaultsToLocalOpenSave</key>
+			<true/>
+			<key>DiagnosticDataTypePreference</key>
+			<string>ZeroDiagnosticData</string>
+			<key>InstallDefender</key>
+			<false/>
+			<key>InstallOneDrive</key>
+			<false/>
+			<key>InstallOneNote</key>
+			<false/>
+			<key>OfficeAutoSignIn</key>
+			<true/>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft Office</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.office.7A5DD6B7-289E-4CC0-9636-35153FA0C2D9</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.office</string>
+			<key>PayloadUUID</key>
+			<string>7A5DD6B7-289E-4CC0-9636-35153FA0C2D9</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>SendAllTelemetryEnabled</key>
+			<false/>
+			<key>TermsAccepted1809</key>
+			<true/>
+			<key>VisualBasicEntirelyDisabled</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Microsoft Office</string>
+	<key>PayloadIdentifier</key>
+	<string>com.microsoft.office.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>E8EC20C0-A483-4C76-BBFB-1E008C0C3A1C</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

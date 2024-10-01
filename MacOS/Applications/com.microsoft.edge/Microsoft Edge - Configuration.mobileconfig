@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>AutoImportAtFirstRun</key>
+			<integer>4</integer>
+			<key>BrowserSignin</key>
+			<integer>0</integer>
+			<key>DefaultPluginsSetting</key>
+			<integer>2</integer>
+			<key>DefaultSearchProviderImageURL</key>
+			<string> {google:baseURL}searchbyimage/upload</string>
+			<key>DefaultSearchProviderImageURLPostParams</key>
+			<string>encoded_image={google:imageThumbnail},image_url={google:imageURL},sbisrc={google:imageSearchSource},original_width={google:imageOriginalWidth},original_height={google:imageOriginalHeight}</string>
+			<key>DefaultSearchProviderName</key>
+			<string>Google</string>
+			<key>DefaultSearchProviderSearchURL</key>
+			<string>{google:baseURL}search?q={searchTerms}&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:searchClient}{google:sourceId}ie={inputEncoding}</string>
+			<key>DefaultSearchProviderSuggestURL</key>
+			<string>{google:baseURL}complete/search?output=chrome&amp;q={searchTerms}</string>
+			<key>DiagnosticData</key>
+			<integer>2</integer>
+			<key>EnhanceSecurityMode</key>
+			<integer>0</integer>
+			<key>ExtensionInstallForcelist</key>
+			<array>
+				<string>dppgmdbiimibapkepcbdbmkaabgiofem</string>
+				<string>odfafepnkmbhccpbejgmiehpchacaeak</string>
+			</array>
+			<key>HideFirstRunExperience</key>
+			<true/>
+			<key>ImportBrowserSettings</key>
+			<false/>
+			<key>ImportSavedPasswords</key>
+			<false/>
+			<key>PasswordManagerEnabled</key>
+			<false/>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft Edge</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.Edge.64AC1529-9E2F-46B4-A7A3-99FBAF564723</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.Edge</string>
+			<key>PayloadUUID</key>
+			<string>745D2E5C-705B-45A8-969E-A6ACB582E16E</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>ShowCastIconInToolbar</key>
+			<true/>
+			<key>SmartScreenPuaEnabled</key>
+			<true/>
+			<key>UseSystemPrintDialog</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Microsoft Edge</string>
+	<key>PayloadIdentifier</key>
+	<string>com.microsoft.edge.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>77349A28-60DF-4243-BB31-A34B769D56C4</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

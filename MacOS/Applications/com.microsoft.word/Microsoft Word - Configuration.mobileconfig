@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft Word</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.Word.4ABE0A73-1E89-403E-91F9-196504630532</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.Word</string>
+			<key>PayloadUUID</key>
+			<string>4ABE0A73-1E89-403E-91F9-196504630532</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>SignInOptions</key>
+			<integer>2</integer>
+			<key>kFRETelemetryConsentKey</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Microsoft Word</string>
+	<key>PayloadIdentifier</key>
+	<string>com.microsoft.word.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>586ABA17-4F69-46F9-8B33-BDB84171A858</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

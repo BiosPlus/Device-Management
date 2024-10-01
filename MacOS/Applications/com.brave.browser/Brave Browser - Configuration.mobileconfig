@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>AllowDinosaurEasterEgg</key>
+			<true/>
+			<key>BraveVPNDisabled</key>
+			<integer>1</integer>
+			<key>BrowserSignin</key>
+			<integer>0</integer>
+			<key>CloudExtensionRequestEnabled</key>
+			<true/>
+			<key>CloudManagementEnrollmentMandatory</key>
+			<true/>
+			<key>CloudManagementEnrollmentToken</key>
+			<string>f6f6d6fa-2c24-4ede-a8ae-9996c00ebcfa</string>
+			<key>CloudReportingEnabled</key>
+			<true/>
+			<key>ExtensionInstallForcelist</key>
+			<array>
+				<string>aeblfdkhhhdcdjpifhhbdiojplfjncoa</string>
+				<string>cjpalhdlnbpafiamejdnhcphjbkeiagm</string>
+			</array>
+			<key>ExtensionManifestV2Availability</key>
+			<integer>3</integer>
+			<key>PasswordManagerEnabled</key>
+			<false/>
+			<key>PayloadDisplayName</key>
+			<string>Brave Browser</string>
+			<key>PayloadIdentifier</key>
+			<string>com.brave.Browser.4A6CA469-1058-4E8E-9995-74AD2BCD7862</string>
+			<key>PayloadType</key>
+			<string>com.brave.Browser</string>
+			<key>PayloadUUID</key>
+			<string>8ECA6483-B837-4D01-AF49-EDCF4F03F1AA</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>ReportSafeBrowsingData</key>
+			<true/>
+			<key>SUAutomaticallyUpdate</key>
+			<true/>
+			<key>ShowCastIconInToolbar</key>
+			<true/>
+			<key>TorDisabled</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Brave Browser</string>
+	<key>PayloadIdentifier</key>
+	<string>com.brave.browser.profiles</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>8A2FE446-5CD1-45C8-A3AF-35A3EFA7D1A1</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

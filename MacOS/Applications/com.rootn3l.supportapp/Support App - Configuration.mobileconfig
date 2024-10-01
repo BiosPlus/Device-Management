@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>ErrorMessage</key>
+			<string>You've found a bug! Error Code: PEBMBAK</string>
+			<key>FirstRowLinkLeft</key>
+			<string>com.mosyle.macos.business</string>
+			<key>FirstRowLinkRight</key>
+			<string>mailto:helpdesk@domain.com</string>
+			<key>FirstRowSubtitleLeft</key>
+			<string>Open the Self Service Application</string>
+			<key>FirstRowSubtitleRight</key>
+			<string>Send an email to our support address</string>
+			<key>FirstRowSymbolLeft</key>
+			<string>cart.fill</string>
+			<key>FirstRowSymbolRight</key>
+			<string>ticket</string>
+			<key>FirstRowTitleLeft</key>
+			<string>Self Service</string>
+			<key>FirstRowTitleRight</key>
+			<string>Lodge a ticket</string>
+			<key>FirstRowTypeLeft</key>
+			<string>App</string>
+			<key>FirstRowTypeRight</key>
+			<string>URL</string>
+			<key>FooterText</key>
+			<string>Is your Mac running? Better go catch it! 💻💨 🏃 </string>
+			<key>HideSecondRow</key>
+			<true/>
+			<key>InfoItemFour</key>
+			<string>Storage</string>
+			<key>InfoItemOne</key>
+			<string>ComputerName</string>
+			<key>InfoItemThree</key>
+			<string>Uptime</string>
+			<key>InfoItemTwo</key>
+			<string>MacOSVersion</string>
+			<key>PayloadDisplayName</key>
+			<string>SupportApp by Root3</string>
+			<key>PayloadIdentifier</key>
+			<string>nl.root3.support.31CF1F42-41E4-478A-8B06-E88508875D1F</string>
+			<key>PayloadType</key>
+			<string>nl.root3.support</string>
+			<key>PayloadUUID</key>
+			<string>48467210-A052-4749-B5E2-8487D3493CD0</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>StatusBarIconNotifierEnabled</key>
+			<true/>
+			<key>StatusBarIconSFSymbol</key>
+			<string>lifepreserver</string>
+			<key>StorageLimit</key>
+			<integer>80</integer>
+			<key>Title</key>
+			<string>About Your Mac</string>
+			<key>UptimeDaysLimit</key>
+			<integer>7</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string></string>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Support App</string>
+	<key>PayloadEnabled</key>
+	<true/>
+	<key>PayloadIdentifier</key>
+	<string>BDA1AE71-4F70-4D93-9924-F8E77E8F0F10</string>
+	<key>PayloadOrganization</key>
+	<string>Root3</string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>38BF3DC5-08F8-426C-9AB6-462A7AB6D2BF</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

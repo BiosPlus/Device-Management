@@ -1,0 +1,74 @@
+<dict>
+  <key>ExtensionSettings</key>
+  <dict>
+    <key>*</key>
+    <dict>
+      <key>blocked_install_message</key>
+      <string>Heyo! We have an extension Allowlist, to get this extension vetted and added please contact your team via helpdesk@domain.tld :)</string>
+      <key>installation_mode</key>
+      <string>blocked</string>
+      <key>allowed_types</key>
+      <array>
+        <string>extension</string>
+      </array>
+      <key>install_sources</key>
+        <array>
+            <string>https://addons.mozilla.org</string>
+        </array>
+    </dict>
+    <!-- 1Password via https://addons.mozilla.org/en-US/firefox/addon/1password-x-password-manager/ -->
+    <key>{d634138d-c276-4fc8-924b-40a0ea21d284}</key>
+    <dict>
+      <key>installation_mode</key>
+      <string>force_installed</string>
+      <key>install_url</key>
+      <string>https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi</string>
+    </dict>
+    <!-- Facebook Container via https://addons.mozilla.org/en-US/firefox/addon/facebook-container/ -->
+    <key>@contain-facebook</key>
+    <dict>
+      <key>installation_mode</key>
+      <string>force_installed</string>
+      <key>install_url</key>
+      <string>https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi</string>
+    </dict>
+    <!-- Ublock Origin via https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/ -->
+    <key>uBlock0@raymondhill.net</key>
+    <dict>
+      <key>installation_mode</key>
+      <string>force_installed</string>
+      <key>install_url</key>
+      <string>https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi</string>
+    </dict>
+    <!-- Tampermonkey via https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/ -->
+    <key>firefox@tampermonkey.net</key>
+    <dict>
+      <key>installation_mode</key>
+      <string>allowed</string>
+      <!-- <key>install_url</key>
+      <string>https://addons.mozilla.org/firefox/downloads/latest/tampermonkey/latest.xpi</string> -->
+    </dict>
+    <!-- Vimium via https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/ -->
+    <key>{d7742d87-e61d-4b78-b8a1-b469842139fa}</key>
+    <dict>
+      <key>installation_mode</key>
+      <string>allowed</string>
+      <!-- <key>install_url</key>
+      <string>https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi</string> -->
+    </dict>
+    <!-- Query AMO ID via https://github.com/mkaply/queryamoid -->
+    <key>queryamoid@kaply.com</key>
+    <dict>
+      <key>installation_mode</key>
+      <string>allowed</string>
+    </dict>
+    <!-- Multi Account Containers via https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/ -->
+    <key>@testpilot-containers</key>
+    <dict>
+      <key>installation_mode</key>
+      <string>allowed</string>
+      <!-- <key>install_url</key>
+      <string>https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi</string> -->
+    </dict>
+  </dict>
+</dict>

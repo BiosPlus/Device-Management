@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft PowerPoint</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.Powerpoint.7739BCF5-8C5F-4EFB-A09C-9158EBD10865</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.Powerpoint</string>
+			<key>PayloadUUID</key>
+			<string>7739BCF5-8C5F-4EFB-A09C-9158EBD10865</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>SignInOptions</key>
+			<integer>2</integer>
+			<key>kFREEnterpriseTelemetryInfoKey</key>
+			<true/>
+			<key>kFRETelemetryConsentKey</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Microsoft Powerpoint</string>
+	<key>PayloadIdentifier</key>
+	<string>com.microsoft.powerpoint.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>7087E3FA-413A-45A1-90A3-D329CF379912</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

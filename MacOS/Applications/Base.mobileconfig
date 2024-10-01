@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array/>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Product Name</string>
+	<key>PayloadIdentifier</key>
+	<string>com.domain.product.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>C4770EFF-6A58-4C03-B015-40A65B96424F</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>AutoUpdate</key>
+			<true/>
+			<key>DefaultSignInTeam</key>
+			<string>T02DTH8FG</string>
+			<key>PayloadDisplayName</key>
+			<string>Slack</string>
+			<key>PayloadIdentifier</key>
+			<string>com.tinyspeck.slackmacgap.194C38A3-25E8-4BAB-A08E-4CEC91E8FAAB</string>
+			<key>PayloadType</key>
+			<string>com.tinyspeck.slackmacgap</string>
+			<key>PayloadUUID</key>
+			<string>194C38A3-25E8-4BAB-A08E-4CEC91E8FAAB</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>ReleaseChannel</key>
+			<string>prod</string>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Slack</string>
+	<key>PayloadIdentifier</key>
+	<string>com.tinyspeck.slack.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>2138C059-FCEE-46F8-9712-700825840EA6</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

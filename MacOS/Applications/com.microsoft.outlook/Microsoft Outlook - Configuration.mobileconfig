@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>DisableExport</key>
+			<true/>
+			<key>DisableImport</key>
+			<true/>
+			<key>DisableSkypeMeeting</key>
+			<true/>
+			<key>DisableTeamsMeeting</key>
+			<true/>
+			<key>PayloadDisplayName</key>
+			<string>Microsoft Outlook</string>
+			<key>PayloadIdentifier</key>
+			<string>com.microsoft.Outlook.E26337FD-197B-4D46-AA0F-2AD21855AF6E</string>
+			<key>PayloadType</key>
+			<string>com.microsoft.Outlook</string>
+			<key>PayloadUUID</key>
+			<string>E26337FD-197B-4D46-AA0F-2AD21855AF6E</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>SendCrashReportsEvenWithTelemetryDisabled</key>
+			<true/>
+			<key>TrustO365AutodiscoverRedirect</key>
+			<true/>
+			<key>kFREEnterpriseTelemetryInfoKey</key>
+			<true/>
+			<key>kFRETelemetryConsentKey</key>
+			<true/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Custom Configuration - Microsoft Outlook</string>
+	<key>PayloadIdentifier</key>
+	<string>com.microsoft.outlook.profile</string>
+	<key>PayloadOrganization</key>
+	<string>BiosPlus - JonBlack.gg</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>9A98961B-6B99-4AD2-9611-7C207067F740</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
