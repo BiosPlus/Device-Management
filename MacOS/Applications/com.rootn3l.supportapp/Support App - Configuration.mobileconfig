@@ -10,7 +10,7 @@
 			<key>FirstRowLinkLeft</key>
 			<string>com.mosyle.macos.business</string>
 			<key>FirstRowLinkRight</key>
-			<string>mailto:helpdesk@domain.com</string>
+			<string>mailto:helpdesk@domain.tld</string>
 			<key>FirstRowSubtitleLeft</key>
 			<string>Open the Self Service Application</string>
 			<key>FirstRowSubtitleRight</key>
