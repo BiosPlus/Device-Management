@@ -28,11 +28,7 @@
               "opera-scheme",
               "vivaldi-scheme",
               "wyciwyg-scheme",
-              "domain.com",
-              "domain.edu.au",
-              "domain.es",
-              "domain.fr",
-              "domain.org.uk",
+              "domain.tld",
               "localhost"
           ]
       }
