@@ -4,7 +4,7 @@
     <key>*</key>
     <dict>
       <key>blocked_install_message</key>
-      <string>Heyo! We have an extension Allowlist, to get this extension vetted and added please contact your team via helpdesk@domain.tld :)</string>
+      <string>To get this extension vetted and added please contact IT or email helpdesk@domain.tld with a link to this page.</string>
       <key>installation_mode</key>
       <string>blocked</string>
       <key>allowed_types</key>
