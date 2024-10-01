@@ -8,7 +8,7 @@
 			<key>AutoUpdate</key>
 			<true/>
 			<key>DefaultSignInTeam</key>
-			<string>T02DTH8FG</string>
+			<string>INSERT_VALUE_HERE</string>
 			<key>PayloadDisplayName</key>
 			<string>Slack</string>
 			<key>PayloadIdentifier</key>
