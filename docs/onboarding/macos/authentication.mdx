@@ -1,0 +1,157 @@
+---
+title: "Authentication Setup"
+description: "Complete guide to setting up and using Okta authentication at Good Noodle Co."
+icon: "shield-check"
+---
+
+Okta is the identity layer for everything at Good Noodle Co. It's how you authenticate to internal tools, your Mac, and most web apps you'll use day-to-day. This guide covers how it all fits together and what to do if something needs to be reconfigured.
+
+## Before You Start
+
+<Info>
+You should have set up your Okta account **before your first day** using a personal email invite. As part of that, you would have installed **Okta Verify** on your phone (iOS or Android) and enrolled your Good Noodle Co. account.
+</Info>
+
+If you haven't done this yet, contact TechOps at **techops-help@goodnoodle.co** before continuing — the rest of this guide assumes your mobile Okta Verify is already set up and working.
+
+## How Okta Verify Works
+
+Okta Verify handles two things:
+
+<AccordionGroup>
+<Accordion title="Multi-Factor Authentication (MFA)" icon="mobile">
+When signing into an Okta-protected app, you verify your identity via a push notification or a one-time code on your phone or Mac.
+</Accordion>
+
+<Accordion title="FastPass" icon="fingerprint">
+Once set up on your Mac, FastPass lets you authenticate to any Okta sign-in screen with just your fingerprint, skipping the username/password flow entirely.
+</Accordion>
+</AccordionGroup>
+
+## Setting Up Okta Verify on Your Mac
+
+If you're doing a fresh setup or need to re-add your account to the Mac app:
+
+<Steps>
+<Step title="Open Okta Verify">
+Open **Okta Verify** from your menu bar and select **Add Account from Another Device**.
+</Step>
+
+<Step title="Enable Bluetooth">
+Enable **Bluetooth** on your Mac.
+</Step>
+
+<Step title="Initiate transfer from your phone">
+1. On your phone, open Okta Verify and select your **Good Noodle Co. account**.
+2. Scroll down and tap **Add Account to Another Device**.
+3. Your phone will show an **8-character code** — enter this on your Mac.
+</Step>
+
+<Step title="Complete verification">
+1. Your Mac will then display a **6-digit code** — enter this on your phone to confirm.
+2. When prompted, enable **Touch ID** for Okta Verify on your Mac.
+</Step>
+</Steps>
+
+<Tip>Your Okta account is now active on both devices. The Mac and phone are linked for authentication purposes.</Tip>
+
+## Using FastPass
+
+Once Okta Verify is configured on your Mac, you'll see a **Sign in with FastPass** button on Okta login screens in Chrome.
+
+Click it, authenticate with your fingerprint via Touch ID, and you're in. No typing your password on every internal app login.
+
+<Note>
+If FastPass isn't appearing or Touch ID isn't triggering correctly, the most common cause is that Platform SSO hasn't been registered. See the section below.
+</Note>
+
+## Platform SSO
+
+Platform SSO ties your Mac login directly to your Okta credentials. This means your Mac password stays in sync with your Okta password, and you get a smoother sign-in experience across the board.
+
+### How to Register
+
+You'll typically get a notification in the top-right corner prompting you to register. If you need to trigger it manually, look for a notification that reads something like:
+
+> **Registration required. Use your identity provider password to log into your Mac.**
+
+<Steps>
+<Step title="Enter local Mac password">
+Enter your **local Mac password** when asked.
+</Step>
+
+<Step title="Use OktaFastPass">
+Click **Use OktaFastPass** when offered — this speeds up the process.
+</Step>
+
+<Step title="Complete binding">
+Enter your **Okta password** (the one you use at `goodnoodle.okta.com`) to complete the binding.
+</Step>
+</Steps>
+
+You'll get a confirmation notification once it's done. Restart your Mac to make sure everything is fully applied.
+
+### What Changes After Platform SSO
+
+<CardGroup cols={2}>
+<Card title="Password sync" icon="sync">
+Your Mac login password will stay in sync with your Okta password going forward.
+</Card>
+
+<Card title="Seamless FastPass" icon="fingerprint">
+Okta FastPass will work seamlessly on the desktop.
+</Card>
+
+<Card title="Touch ID authentication" icon="hand">
+You won't need to enter your full credentials on most internal apps — Touch ID handles it.
+</Card>
+</CardGroup>
+
+## Your Okta Password
+
+<Warning>
+A few ground rules:
+- **Never write it down anywhere**, physically or digitally.
+- **Never auto-generate it** via a password manager. This is the one password you need to know from memory.
+- It should be something you can type confidently, but not something someone could read over your shoulder and reproduce.
+</Warning>
+
+A good approach is a **passphrase** — take a phrase, a set of words, a film title, an album name, something meaningful to you, and modify it slightly. Swap some letters for numbers, add some punctuation, maybe abbreviate one of the words. It'll be easy for you to recall and type, but not obvious to anyone watching.
+
+<Tip>
+Store everything else in **1Password**, which is already installed on your machine.
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="Not seeing the FastPass button on Okta login screens" icon="question">
+Platform SSO probably hasn't been registered yet. Check for a notification in your menu bar or top-right corner and follow the registration steps above.
+</Accordion>
+
+<Accordion title="Okta push notifications not arriving on your phone" icon="mobile-screen">
+Make sure the Okta Verify app has notification permissions on your phone. Check your phone's notification settings if pushes are going missing.
+</Accordion>
+
+<Accordion title="Registration required notification not appearing" icon="bell-slash">
+Try opening Okta Verify from the menu bar and checking if there's an action required. If not, reach out to TechOps.
+</Accordion>
+
+<Accordion title="Lost your phone or need to re-enrol Okta Verify" icon="triangle-exclamation">
+Contact TechOps immediately at **techops-help@goodnoodle.co**. We'll need to reset your MFA enrolment before you can set up a new device.
+</Accordion>
+</AccordionGroup>
+
+## Getting Help
+
+For anything Okta-related that isn't covered here:
+
+<CardGroup cols={2}>
+<Card title="Email TechOps" icon="envelope" href="mailto:techops-help@goodnoodle.co">
+techops-help@goodnoodle.co
+</Card>
+
+<Card title="Slack Channel" icon="slack" href="#">
+**#techops-help** (has a built-in ticketing system, everything is logged)
+</Card>
+</CardGroup>

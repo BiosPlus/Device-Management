@@ -1,0 +1,165 @@
+---
+title: "Setup Assistant"
+description: "Step-by-step guide to setting up your Good Noodle Co. MacBook through the macOS Setup Assistant"
+icon: "laptop"
+---
+
+When you first power on your Good Noodle Co. MacBook, macOS walks you through the **Setup Assistant** before you can use the machine. This guide takes you step by step through that process.
+
+<Steps>
+<Step title="Language & Region">
+
+The first screen asks you to choose a language. Select the language that best suits you — most people pick the one that matches their country (e.g. English Australia, English UK, English US). Once selected, macOS will apply it in the background and move on.
+
+The next screen asks for your **country or region**. Pick wherever you are currently based. If you're in Japan, choose Japan. Being a UK-headquartered company does not mean you need to select UK — choose what's accurate for you.
+
+</Step>
+
+<Step title="Transferring Data">
+
+You may be prompted to transfer data from a previous Mac or Windows PC.
+
+<Warning>
+**Do not transfer data from another machine.** Select **Set Up as New Mac** and move on. Migrating data from another machine will cause the setup to fail and you'll have to wipe the machine and start again.
+</Warning>
+
+</Step>
+
+<Step title="Accessibility">
+
+macOS will offer accessibility options covering vision, motor, hearing, and cognitive settings. Configure anything here that's useful to you. If none apply, skip past it.
+
+</Step>
+
+<Step title="Wi-Fi">
+
+Connect to a wireless network you have access to. Enter the password and continue. You'll need an active internet connection for the next steps to work.
+
+</Step>
+
+<Step title="Device Management Enrollment">
+
+Once you're online, you should see a screen that says:
+
+> **This Mac is managed by Good Noodle Co.**
+
+This is the MDM enrollment screen. It tells you the machine is owned by Good Noodle Co. and that company policies will be applied. Hit **Enroll**.
+
+<Warning>
+**If you do not see this screen, stop here.** It means the machine hasn't been properly joined to our business instance. Contact your office manager or reach out to TechOps at **techops-help@goodnoodle.co** immediately. You will need to wipe and redo the setup if this isn't sorted before continuing.
+</Warning>
+
+<Tip>Enrollment can take a few minutes depending on your internet speed.</Tip>
+
+</Step>
+
+<Step title="Software Updates During Setup">
+
+We enforce a minimum macOS version across all company devices. If your Mac shipped with an older version, you'll be prompted to install a software update before you can continue enrollment.
+
+Go ahead and install it. Update sizes range from **2 GB to 12 GB** depending on how out of date the machine is, so expect anywhere from **5 to 30 minutes** depending on your connection.
+
+</Step>
+
+<Step title="Okta Login & Machine Binding">
+
+After enrollment, a private browsing window will open and connect to the Good Noodle Co. Okta instance. You'll be asked to sign in with your Okta credentials.
+
+<Warning>
+A couple of things to watch out for here:
+- **Do not select "Sign in with OktaFastPass"** — it won't work at this stage.
+- **Do not tick "Keep me signed in"** — it won't work either.
+</Warning>
+
+Enter your email address and hit **Next**. You should have already set up your Okta account and the **Okta Verify** app on your phone (iOS or Android) in the days before your start date. When prompted, select **Enter Push Notification** — a digit will appear on screen and a prompt will appear on your phone. Tap the matching digit on your phone to verify.
+
+Once done, the machine is bound to your user account and will begin installing policies and software in the background.
+
+</Step>
+
+<Step title="Creating Your Local Mac Account">
+
+You'll be prompted to create a local Mac account. A few things to note:
+
+<Info>
+- **You cannot change your name, username, or home directory.** These are set automatically based on your email address prefix. For example, if your email is `john.smith@goodnoodle.co`, your home directory will be `john.smith`.
+- Set a password. You don't need to set a hint.
+</Info>
+
+This account is your local login for the machine.
+
+</Step>
+
+<Step title="Location, Touch ID & Appearance">
+
+You'll be asked a few more setup questions:
+
+<AccordionGroup>
+<Accordion title="Location Services">
+Enable this. Software updates, time zone detection, and our Kolide security checks all depend on accurate location data.
+</Accordion>
+
+<Accordion title="Touch ID">
+Set this up. It makes day-to-day use a lot smoother and you'll need it later for Okta FastPass.
+</Accordion>
+
+<Accordion title="Appearance">
+Choose Light, Dark, or Auto. Entirely up to you.
+</Accordion>
+
+<Accordion title="Automatic Updates">
+Enable these. We manage updates centrally but having automatic updates on is part of our compliance posture.
+</Accordion>
+</AccordionGroup>
+
+</Step>
+</Steps>
+
+## Background Provisioning
+
+After completing the setup questions, you'll land on an **Additional Setup** screen. Scripts are running and applications are being installed in the background. You don't need to do anything here — just wait it out.
+
+<AccordionGroup>
+<Accordion title="What to expect during provisioning" icon="circle-info">
+- Some steps on this screen will show as **failed or errored**. This is expected. For example, the Kolide Platform SSO check will error because you haven't configured Platform SSO yet. The Dock setup will also fail on first run by design — it needs to fail once before the script can configure it correctly.
+- Speed here is dependent on your internet connection and your location. Users in Europe tend to get faster provisioning speeds. Users in Asia or the US may experience slower speeds. This is tied to our MDM being hosted on AWS and is outside our control.
+</Accordion>
+
+<Accordion title="Software that gets installed" icon="download">
+By the end of provisioning, the following will be on your machine:
+
+| Application | Purpose |
+|---|---|
+| **1Password** | Password manager |
+| **Google Chrome** | Primary supported browser |
+| **Xcode CLI Tools** | Enables `git`, `curl`, `wget`, etc. |
+| **Homebrew** | Package manager, pre-installed and ready to use |
+| **Okta Verify** | MFA and FastPass authentication |
+| **CrowdStrike Falcon** | Endpoint security / antivirus |
+| **Zscaler** | Company VPN for accessing internal Good Noodle Co. systems |
+| **Kolide** | Device security posture checks |
+
+</Accordion>
+</AccordionGroup>
+
+## Wrapping Up the Setup Assistant
+
+Once provisioning is done, you'll see two buttons: one for **Self Service** and one for **macOS Basics**.
+
+<Tip>
+If you've never used a Mac before, hit the macOS Basics button — Apple has a solid crash course built in.
+</Tip>
+
+**Self Service** is the internal app store for Good Noodle Co.-approved software. Always check here first before looking online for an application. You cannot use the Apple App Store as we run managed Apple IDs. If something you need isn't in Self Service, reach out to TechOps and we'll get it added.
+
+## Next Step: Post-Setup Configuration
+
+Before you do anything else — open Chrome, set up Okta, anything — **restart your Mac first**.
+
+<Warning>
+The reason: your machine's disk is encrypted, and we need to capture the encryption key. The only way that happens is by signing back in after a restart. If you skip this, we won't be able to help you recover your session if something goes wrong.
+</Warning>
+
+Your login password will be the one you set during the account creation step above.
+
+Once you've restarted, head to the [Post-Setup Configuration](/docs/onboarding/macos/post-setup) guide.
