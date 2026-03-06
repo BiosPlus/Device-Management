@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "postStartCommand": "mint dev",
+  "postStartCommand": "cd docs && mint dev",
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
