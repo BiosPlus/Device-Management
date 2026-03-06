@@ -1,0 +1,22 @@
+{
+  "name": "Device-Management Docs",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postStartCommand": "mint dev",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Mintlify Dev",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "unifiedjs.vscode-mdx",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}
