@@ -1,19 +1,18 @@
 ---
 title: "macOS Updates"
 description: "Best practice methodology for macOS software update management."
+icon: "apple"
 ---
 
-# macOS Updates
+## Pre-Sonoma (macOS 13 and older)
 
-## Pre macOS 14 (Ventura and older)
+Pre-Sonoma macOS lacked a reliable MDM-driven update workflow. Apple's design is user-initiated first — MDMs could define an update schedule, but the actual kickoff still required user action.
 
-macOS versions pre-Sonoma lacked a good update workflow. Apple designs things to be user-driven first, automatic second — so while MDMs could attempt to enforce an update schedule, the actual kickoff always needed to be driven by the user.
+The recommended approach is [Nudge](https://github.com/macadmins/nudge).
 
-The best approach is to use Nudge.
-
-- Deploy the Nudge Suite package from the macadmins GitHub release page ([Link](https://github.com/macadmins/nudge/releases))
-    - Deploy this to a device group in your MDM with a conditional rule where the OS version is older than 14.0.
-- Create a policy to enforce updates via Nudge, or use the existing web JSON-based policy. Both options are listed below (as of 2024-01-31):
+- Deploy the Nudge Suite package from the [macadmins GitHub releases page](https://github.com/macadmins/nudge/releases).
+  - Scope deployment to a device group in your MDM with a condition matching OS version older than 14.0.
+- Configure a Nudge policy using one of the two options below (current as of 2024-01-31):
 
 ### Option One: The all-in-one (AIO) Nudge mobileconfig file
 
@@ -23,8 +22,6 @@ Deploy a mobileconfig file to Macs with a full configuration built in. The mobil
 
 Deploy a mobileconfig file to Macs that points to a remote configuration source (e.g. a raw file hosted on GitHub). The mobileconfig and JSON configuration files are available in the resources directory of this repository.
 
-## macOS 14+ (Sonoma and newer)
+## Sonoma and newer (macOS 14+)
 
-<Note>
-Content for Sonoma and newer coming soon.
-</Note>
+{/* TODO: Document the MDM-native update enforcement workflow introduced in Sonoma */}

@@ -1,11 +1,9 @@
 ---
 title: "Managed Browser Settings"
-description: "Browser configurations manageable via the Google Workspace Admin Console (or Group Policy)."
+description: "Browser configurations manageable via the Google Workspace Admin Console or Group Policy."
 ---
 
-# Managed Browser Settings
-
-A set of browser configurations which can be managed via the Google Workspace Admin Console (or Group Policy if you're brave enough).
+A set of browser configurations manageable via the Google Workspace Admin Console or Group Policy.
 
 <Note>
 "Shortcodes" referenced below are the actual policy Preference Names used in the Admin Console.
@@ -15,7 +13,7 @@ A set of browser configurations which can be managed via the Google Workspace Ad
 
 ## Browser Reporting
 
-If you're managing a Google Workspace instance/tenancy, you'll want this turned on as it sends logs to your audit and investigation log tool. 3 hours is the fastest frequency.
+Enable this for any managed Google Workspace tenancy — it routes browser events to the audit and investigation log tool. Three hours is the minimum supported upload frequency.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
@@ -25,26 +23,25 @@ If you're managing a Google Workspace instance/tenancy, you'll want this turned 
 
 ## Chrome Enterprise Connectors
 
-- Hashes are generated for uploaded/downloaded files
-- Huge text pastes are analysed for potential PII exfiltration.
-- Visits to malicious URLs (with the red advisory block screen) are logged and graded on severity.
-    - Bypasses of that advisory are logged and reported.
+- Hashes are generated for uploaded and downloaded files.
+- Large text pastes are analysed for potential PII exfiltration.
+- Visits to malicious URLs are logged and graded by severity; advisory bypasses are also logged.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
-| Upload content analysis | [More info to come] | OnFileAttachedEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileAttachedEnterpriseConnector&table-view=false) |
-| Download content analysis | [More info to come] | OnFileDownloadedEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileDownloadedEnterpriseConnector&table-view=false) |
-| Bulk text content analysis | [More info to come] | OnBulkDataEntryEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnBulkDataEntryEnterpriseConnector&table-view=false) |
-| Print content analysis | [More info to come] | OnPrintEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnPrintEnterpriseConnector&table-view=false) |
+| Upload content analysis | TODO | OnFileAttachedEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileAttachedEnterpriseConnector&table-view=false) |
+| Download content analysis | TODO | OnFileDownloadedEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileDownloadedEnterpriseConnector&table-view=false) |
+| Bulk text content analysis | TODO | OnBulkDataEntryEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnBulkDataEntryEnterpriseConnector&table-view=false) |
+| Print content analysis | TODO | OnPrintEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnPrintEnterpriseConnector&table-view=false) |
 | Real time URL check | Chrome Enterprise Premium | EnterpriseRealTimeUrlCheckMode | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileDownloadedEnterpriseConnector&table-view=false) |
 
 ## Chrome Updates
 
 Goals:
-- Get browsers to update within 48 hours of a release.
-- Have Chrome check every 300 mins to see if there's an update.
-- Use a friendly endpoint for checking (cacheable URL).
-- Use the extended stable channel for stability, and due to the volume of updates the Chrome team push on the latest channel (sometimes several times a day).
+- Update browsers within 48 hours of a release.
+- Poll for updates every 300 minutes.
+- Use cacheable update URLs where possible.
+- Use the extended stable channel — the latest channel can receive multiple releases per day, which increases operational noise.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
@@ -63,7 +60,7 @@ Goals:
 
 ## Content
 
-Better user experience.
+Improves the user experience for common browser interactions.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
@@ -71,7 +68,7 @@ Better user experience.
 
 ## Enrollment Controls
 
-Populating data about the devices joining your org.
+Captures asset metadata during device enrollment.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
@@ -79,7 +76,7 @@ Populating data about the devices joining your org.
 
 ## Import Settings
 
-Right now this pertains to password imports. The password manager isn't working (if you follow the rule in the Security section below), but this is a good step to take anyway.
+Disables password import — redundant once the built-in password manager is disabled (see Security below), but worth setting explicitly.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
@@ -87,7 +84,7 @@ Right now this pertains to password imports. The password manager isn't working 
 
 ## Remote Access
 
-Restricts possible avenues for scammers to get into user workstations. Every org should have a standard means of conducting remote support.
+Locks down Chrome's built-in remote access features. Establish a standard remote support tool for your org so this restriction doesn't create operational gaps.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
@@ -97,15 +94,15 @@ Restricts possible avenues for scammers to get into user workstations. Every org
 
 ## Security
 
-Every org should have a centralised password solution (Bitwarden, 1Password, etc.), so it makes sense to reduce the chance of passwords stored in unknown locations.
+Disables the built-in password manager in favour of a centralised password solution (Bitwarden, 1Password, etc.), preventing credentials from being scattered across browser profiles.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
 | Password Manager | Never allow the use of password manager | PasswordManagerEnabled | [Link](https://admin.google.com/ac/chrome/settings/user/details/password_manager) |
 
-## Sign-In Settings
+## Sign-in settings
 
-Ensures users are not syncing history, bookmarks, or passwords to a personal Gmail account.
+Prevents users from syncing history, bookmarks, or passwords to a personal Google account via the managed browser.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|
@@ -114,9 +111,11 @@ Ensures users are not syncing history, bookmarks, or passwords to a personal Gma
 | Enterprise profile separation | Enforce profile separation | ProfileSeparationSettings | [Link](https://admin.google.com/ac/chrome/settings/user/details/profile_separation_settings_setting_group) |
 | Profile separation data migration | Suggest to users to bring their existing data in the managed profile and give them a choice not to | ProfileSeparationDataMigrationSettings | [Link](https://admin.google.com/ac/chrome/settings/user/details/profile_separation_data_migration_settings_setting_group) |
 
-## Other Settings
+## Other settings
 
-The logs sent are entirely anonymized and useful for helping the Chromium team resolve issues. Policy fetching is set to 300 seconds in the event you push a bad config and want to roll back before anyone receives it. Backing up Chrome data locally is a general no-no.
+- **Metrics reporting** — anonymised crash and usage data sent to Google; useful for Chromium issue resolution.
+- **Policy fetch delay** — set to 300 seconds so a bad config can be rolled back before it propagates to clients.
+- **Chrome data backup** — disabled; browser data should not be included in local system backups.
 
 | Policy | Setting | Shortcode | URL |
 |---|---|---|:-:|

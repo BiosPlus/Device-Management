@@ -1,18 +1,15 @@
 ---
 title: "User Offboarding"
 description: "Methodology for handling mailbox and drive data when offboarding a Google Workspace user."
+icon: "user-minus"
 ---
 
-# User Offboarding
+Unlike Microsoft 365, Google Workspace has no shared mailbox concept. When a user's data needs to be split among multiple successors, the migration tooling falls short — this runbook covers a reliable alternative approach.
 
-The common methodology in Microsoft 365 environments is to convert a user account into a shared mailbox and deal out access to other users. Google doesn't offer that same functionality and their migration tool isn't great if someone's position/data needs to be split among multiple successors.
+## Requirements
 
-### Requirements
-
-- **Got Your Back** ([Github](https://github.com/GAM-team/got-your-back)) - @GAM-team
-    - Be sure to set this up with a service account, [follow their guide for more info](https://github.com/BiosPlus/GoRoMa/blob/main/README.md#offboarding-users).
-- **Google Applications Manager** - GAMADV-XTD ([Github](https://github.com/taers232c/GAMADV-XTD3))
-    - [This guide](https://basuta.com/posts/installing-google-apps-manager-gam-on-google-cloud-shell/) is great for installing it on a [Google Cloud Shell](https://cloud.google.com/shell) (50 hour quota / 5GB storage / Unlimited Bandwidth - Free each week). You could probably do the same with Got Your Back.
+- **Got Your Back** ([GitHub](https://github.com/GAM-team/got-your-back)) — set this up with a service account before use. See the [GYB documentation](https://github.com/GAM-team/got-your-back/wiki) for setup instructions.
+- **GAMADV-XTD3** ([GitHub](https://github.com/taers232c/GAMADV-XTD3)) — [this guide](https://basuta.com/posts/installing-google-apps-manager-gam-on-google-cloud-shell/) covers installing GAM on [Google Cloud Shell](https://cloud.google.com/shell) (50 hours/week free, 5 GB storage, unlimited bandwidth).
 
 <Info>
 This can all be done with the user account suspended.
@@ -33,43 +30,43 @@ With these properties you'll establish a good and scalable precedent.
 | Group Owner | You | |
 | Permissions | Set everything to "Owner" | |
 
-### 2. Take a copy of the user's mail with `gyb` (ensuring only to take mail less than 25MB in size)
+### 2. Back up the user's mail with `gyb` (messages under 25 MB only)
 
-Open terminal and run the following command (substituting `john.smith` with the address of the offboarded user, and `you` with your address, provided you're a workspace administrator):
+Substitute `john.smith` with the offboarded user's address prefix and `you` with your admin address:
 
 ```sh
 gyb --email john.smith@domain.tld --action backup --service-account --search smaller:25M
 ```
 
-This will start a backup process which exports each email in the user's inbox to `.eml` format in a nicely structured directory, as well as an SQLite database which keeps track of any relevant attributes.
+This exports each message to `.eml` format in a structured directory, along with an SQLite database tracking message metadata.
 
-### 3. Restore a copy to the group mailbox
-
-Take that backup and import it into the aforementioned group with:
+### 3. Restore the backup to the group mailbox
 
 ```sh
 gyb  --action restore-group --email offboarded_john.smith@domain.tld --use-admin you@domain.tld --service-account --local-folder /PATH/TO/BACKUP/DIR
 ```
 
-This can be a very slow process — about 1 email per 1.5 seconds; can't be helped.
+<Note>
+Restoration is rate-limited to approximately one message per 1.5 seconds — this is a Google API constraint.
+</Note>
 
-### 4. Take a full copy of the user mailbox with gyb (regardless of size)
+### 4. Take a full backup of the user's mailbox (all sizes)
 
 ```sh
 gyb --email john.smith@domain.tld --action backup --service-account
 ```
 
-### 5. Zip a copy of that mailbox and store it in a team/shared drive
+### 5. Archive the mailbox and store it in a Shared Drive
 
-If you would like to speed this process up and save space, use the ZStandard compression format — just be sure to have `zstd` in your PATH.
+Using ZStandard compression saves significant space and is faster than gzip. Requires `zstd` in your `PATH`.
 
 ```sh
 tar -acvf john.smith.tar.zst GYB-GMail-Backup-john.smith\@domain.tld/
 ```
 
-### 6. Remove yourself as the Owner from the Group Mailbox.
+### 6. Remove yourself as owner of the group mailbox.
 
-### 7. Add the relevant users inheriting this data as "Contributors" to the Mailbox.
+### 7. Add the users inheriting this data as "Contributors" to the mailbox.
 
 ---
 
@@ -112,10 +109,10 @@ gam user john.smith@domain.tld move drivefile root teamdriveparentid TEAM_DRIVE_
 
 ### 3. Set access
 
-Remove yourself and the user from being drive managers. Add users who will need this data as `contributors` at most — this sets a good precedent that they should be working in shared/team drives and not hoarding critical docs in their private storage.
+Remove yourself and the offboarded user as managers. Add any users who need the data as `contributors` — keeping access at contributor level encourages working in Shared Drives rather than private storage.
 
 ---
 
-## Optional reading
+## Related
 
-See [Troubleshooting — Transferring ownership of orphaned files](/docs/google-workspace/troubleshooting#transferring-ownership-of-orphaned-files) for a fix to a rare scenario where you're still seeing drive storage quota in use even though the offboardee drive is empty.
+If drive storage quota still shows usage after emptying the offboarded user's drive, see [Transferring ownership of orphaned files](/docs/google-workspace/troubleshooting#transferring-ownership-of-orphaned-files).

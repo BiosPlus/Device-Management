@@ -1,42 +1,43 @@
 ---
 title: "Troubleshooting"
 description: "Methodologies and GAM commands for common Google Workspace issues."
+icon: "wrench"
 ---
 
 ## Transferring ownership of orphaned files
 
-### Example
+### Scenario
 
-John Smith gives Jane Parker access to a folder on his My Drive. Jane transfers a 20GB video file to that folder. Jane technically still retains ownership of the file, and as the file is in the "My Drive" realm, it counts against her storage quota.
+John Smith shares a folder on his My Drive with Jane Parker. Jane uploads a 20 GB video file to that folder. Because Jane owns the file and it lives in a My Drive (not a Shared Drive), it counts against *her* storage quota — not John's.
 
-You have been tasked with offboarding Jane, and have moved 80GB worth of files to a share drive from Jane's 'My Drive', but as the commands above only address files in her My Drive, you're still seeing 20GB of her quota in use. When deleting an account you are presented with the option to `Transfer` data to a new user, or `Do Not Transfer`.
+When offboarding Jane, you move 80 GB from her My Drive to a Shared Drive, but 20 GB of quota remains in use. At account deletion, Google presents two options:
 
-- Selecting `Do Not Transfer` will delete the 20GB video file that Jane currently owns which resides in John's drive.
-- Selecting `Transfer` will instead burden the new target user with ownership of the video file, and spend 20GB of their storage quota. Quite unfair, and a bad practice.
+- **Do Not Transfer** — deletes the 20 GB file that Jane owns, even though it resides in John's drive.
+- **Transfer** — reassigns ownership to another user, consuming 20 GB of their quota.
 
-This is also a problem as sharing/management permissions for a file are the responsibility of the file owner, and not the directory owner. Behaviour wise, we can expect that files transferred in this manner from user to user are intended as a granting of ownership (though technically not in function).
+Neither option is acceptable. The root cause is that file ownership is tied to the file owner, not the directory owner.
 
-### How to solve it
+### Resolution
 
-You can run the following commands across your tenancy, which will search for files owned by Jane and reassign ownership to the user whose share drive the file resides in.
+Run the following commands to find files owned by Jane that live in other users' My Drives, then reassign ownership to the respective drive owner.
 
-#### Command 1: Generate a CSV file which lists files owned by Jane in other users' My Drives.
+#### Step 1: Generate a CSV listing files owned by Jane in other users' My Drives
 
 ```sh
 gam all users show filelist corpora user showownedby others fullquery "'jane.parker@domain.tld' in owners" name id owners > ownedbyoffboarded.csv
 ```
 
-#### Command 2: Iterate through the CSV, reassigning ownership of the corresponding file to the parent owner of the My Drive.
+#### Step 2: Reassign ownership to the My Drive owner for each file in the CSV
 
-This will relegate Jane to Editor permission of the affected files, and still show the files in the "Shared to me" section on the drive website. Quota usage for each file will be reassigned to the owner of the My Drive.
+Jane is downgraded to Editor on each affected file. The files remain visible to her under "Shared with me", and quota usage shifts to the respective My Drive owner.
 
 ```sh
 gam csv ownedbyoffboarded.csv gam user jane.parker@domain.tld transfer ownership "~id" "~Owner"
 ```
 
-#### Command 3 (Optional): Remove Jane from the access control of the files.
+#### Step 3 (optional): Remove Jane's access from the affected files
 
-This may be a good practice if you don't want to overburden the new user you're transferring file ownership to.
+Use this if you don't want to leave Jane with editor access to files now owned by others.
 
 ```sh
 gam csv ownedbyoffboarded.csv gam user "~Owner" delete drivefileacl "~id" jane.parker@domain.tld
@@ -44,5 +45,5 @@ gam csv ownedbyoffboarded.csv gam user "~Owner" delete drivefileacl "~id" jane.p
 
 ### Notes
 
-- This process will not affect the permissions of files still present in Jane's 'My Drive'.
-- If a folder ID is generated/supplied to the CSV in the first command, the folder will be recursively scanned through in the second command to find any files that fit this ownership scenario/criteria. Again, this will not affect files where Jane is not already the owner coming into the scenario.
+- Files still present in Jane's My Drive are not affected by this process.
+- If a folder ID appears in the CSV from Step 1, Step 2 will scan that folder recursively. Only files where Jane is currently the owner are affected.
