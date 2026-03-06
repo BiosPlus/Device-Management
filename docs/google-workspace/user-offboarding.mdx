@@ -1,0 +1,121 @@
+---
+title: "User Offboarding"
+description: "Methodology for handling mailbox and drive data when offboarding a Google Workspace user."
+---
+
+# User Offboarding
+
+The common methodology in Microsoft 365 environments is to convert a user account into a shared mailbox and deal out access to other users. Google doesn't offer that same functionality and their migration tool isn't great if someone's position/data needs to be split among multiple successors.
+
+### Requirements
+
+- **Got Your Back** ([Github](https://github.com/GAM-team/got-your-back)) - @GAM-team
+    - Be sure to set this up with a service account, [follow their guide for more info](https://github.com/BiosPlus/GoRoMa/blob/main/README.md#offboarding-users).
+- **Google Applications Manager** - GAMADV-XTD ([Github](https://github.com/taers232c/GAMADV-XTD3))
+    - [This guide](https://basuta.com/posts/installing-google-apps-manager-gam-on-google-cloud-shell/) is great for installing it on a [Google Cloud Shell](https://cloud.google.com/shell) (50 hour quota / 5GB storage / Unlimited Bandwidth - Free each week). You could probably do the same with Got Your Back.
+
+<Info>
+This can all be done with the user account suspended.
+</Info>
+
+---
+
+## Mailbox Data Handling
+
+### 1. Create a group mailbox
+
+With these properties you'll establish a good and scalable precedent.
+
+| Property | Convention | Example |
+|---|---|---|
+| Name | `Offboarded User - [User Full Name] (email_prefix) - YYYY-MM-DD` | **Offboarded User - John Smith (john.smith) - 2023-01-01** |
+| Address | `offboarded_[emailprefix]@domain.tld` | `offboarded_john.smith@domain.tld` |
+| Group Owner | You | |
+| Permissions | Set everything to "Owner" | |
+
+### 2. Take a copy of the user's mail with `gyb` (ensuring only to take mail less than 25MB in size)
+
+Open terminal and run the following command (substituting `john.smith` with the address of the offboarded user, and `you` with your address, provided you're a workspace administrator):
+
+```sh
+gyb --email john.smith@domain.tld --action backup --service-account --search smaller:25M
+```
+
+This will start a backup process which exports each email in the user's inbox to `.eml` format in a nicely structured directory, as well as an SQLite database which keeps track of any relevant attributes.
+
+### 3. Restore a copy to the group mailbox
+
+Take that backup and import it into the aforementioned group with:
+
+```sh
+gyb  --action restore-group --email offboarded_john.smith@domain.tld --use-admin you@domain.tld --service-account --local-folder /PATH/TO/BACKUP/DIR
+```
+
+This can be a very slow process — about 1 email per 1.5 seconds; can't be helped.
+
+### 4. Take a full copy of the user mailbox with gyb (regardless of size)
+
+```sh
+gyb --email john.smith@domain.tld --action backup --service-account
+```
+
+### 5. Zip a copy of that mailbox and store it in a team/shared drive
+
+If you would like to speed this process up and save space, use the ZStandard compression format — just be sure to have `zstd` in your PATH.
+
+```sh
+tar -acvf john.smith.tar.zst GYB-GMail-Backup-john.smith\@domain.tld/
+```
+
+### 6. Remove yourself as the Owner from the Group Mailbox.
+
+### 7. Add the relevant users inheriting this data as "Contributors" to the Mailbox.
+
+---
+
+## Drive Data Handling
+
+<Warning>
+If after this the user's account still shows drive storage quota being used, it's likely they have backed up their computer directories using the Google Drive desktop app. See the [troubleshooting page](/docs/google-workspace/troubleshooting) for a fix.
+</Warning>
+
+### 1. Create a Google Shared Drive for the offboarded user
+
+| Property | Convention | Example |
+|---|---|---|
+| Name | `Offboarded User - [User Full Name] (email_prefix) - YYYY-MM-DD` | **Offboarded User - John Smith (john.smith) - 2023-01-01** |
+| Access | You + Offboarded User added as `Managers` | |
+
+```sh
+gam user you@domain.tld create teamdrive "Offboarded User - John Smith (john.smith) - 2023-01-01" adminmanagedrestrictions true asadmin
+```
+
+<Note>
+Be sure to grab the Teamdrive ID — it's a string of random characters output after the generation.
+</Note>
+
+#### Add the offboarded user as a manager
+
+```sh
+gam add drivefileacl TEAM_DRIVE_ID_HERE user john.smith@domain.tld role organizer
+```
+
+### 2. Move Data from the user's "My Drive" to the "Shared Drive"
+
+<Warning>
+This will retain all document-level IDs and sharing settings, though you will lose directory-based sharing (i.e. if the user shared a whole folder, that access will be lost).
+</Warning>
+
+```sh
+gam user john.smith@domain.tld move drivefile root teamdriveparentid TEAM_DRIVE_ID_HERE mergewithparent duplicatefolders merge createshortcutsfornonmovablefiles
+```
+
+### 3. Set access
+
+Remove yourself and the user from being drive managers. Add users who will need this data as `contributors` at most — this sets a good precedent that they should be working in shared/team drives and not hoarding critical docs in their private storage.
+
+---
+
+## Optional reading
+
+See [Troubleshooting — Transferring ownership of orphaned files](/docs/google-workspace/troubleshooting#transferring-ownership-of-orphaned-files) for a fix to a rare scenario where you're still seeing drive storage quota in use even though the offboardee drive is empty.

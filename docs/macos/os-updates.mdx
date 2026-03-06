@@ -1,0 +1,30 @@
+---
+title: "macOS Updates"
+description: "Best practice methodology for macOS software update management."
+---
+
+# macOS Updates
+
+## Pre macOS 14 (Ventura and older)
+
+macOS versions pre-Sonoma lacked a good update workflow. Apple designs things to be user-driven first, automatic second — so while MDMs could attempt to enforce an update schedule, the actual kickoff always needed to be driven by the user.
+
+The best approach is to use Nudge.
+
+- Deploy the Nudge Suite package from the macadmins GitHub release page ([Link](https://github.com/macadmins/nudge/releases))
+    - Deploy this to a device group in your MDM with a conditional rule where the OS version is older than 14.0.
+- Create a policy to enforce updates via Nudge, or use the existing web JSON-based policy. Both options are listed below (as of 2024-01-31):
+
+### Option One: The all-in-one (AIO) Nudge mobileconfig file
+
+Deploy a mobileconfig file to Macs with a full configuration built in. The mobileconfig is available in the resources directory of this repository.
+
+### Option Two: The web-based Nudge configuration
+
+Deploy a mobileconfig file to Macs that points to a remote configuration source (e.g. a raw file hosted on GitHub). The mobileconfig and JSON configuration files are available in the resources directory of this repository.
+
+## macOS 14+ (Sonoma and newer)
+
+<Note>
+Content for Sonoma and newer coming soon.
+</Note>

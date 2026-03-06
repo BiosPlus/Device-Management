@@ -41,6 +41,28 @@
             ]
           },
           {
+            "group": "macOS",
+            "pages": [
+              "macos/os-updates"
+            ]
+          },
+          {
+            "group": "Google Workspace",
+            "pages": [
+              "google-workspace/index",
+              "google-workspace/groups",
+              "google-workspace/user-offboarding",
+              "google-workspace/troubleshooting",
+              {
+                "group": "Google Chrome",
+                "pages": [
+                  "google-workspace/google-chrome/index",
+                  "google-workspace/google-chrome/managed-browser-settings"
+                ]
+              }
+            ]
+          },
+          {
             "group": "Getting started",
             "pages": [
               "getting-started/index",

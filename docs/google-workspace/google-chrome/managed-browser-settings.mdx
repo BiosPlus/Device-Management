@@ -1,0 +1,138 @@
+---
+title: "Managed Browser Settings"
+description: "Browser configurations manageable via the Google Workspace Admin Console (or Group Policy)."
+---
+
+# Managed Browser Settings
+
+A set of browser configurations which can be managed via the Google Workspace Admin Console (or Group Policy if you're brave enough).
+
+<Note>
+"Shortcodes" referenced below are the actual policy Preference Names used in the Admin Console.
+</Note>
+
+---
+
+## Browser Reporting
+
+If you're managing a Google Workspace instance/tenancy, you'll want this turned on as it sends logs to your audit and investigation log tool. 3 hours is the fastest frequency.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Managed browser reporting | Enabled managed browser cloud reporting | CloudReportingEnabled | [Link](https://admin.google.com/ac/chrome/settings/user/details/cloud_reporting) |
+| Managed browser reporting upload frequency | 3 hours | CloudReportingUploadFrequency | [Link](https://admin.google.com/ac/chrome/settings/user/details/cloud_reporting_upload_frequency_category_item) |
+| Event Reporting | Enable event reporting | OnSecurityEventEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnSecurityEventEnterpriseConnector&table-view=false) |
+
+## Chrome Enterprise Connectors
+
+- Hashes are generated for uploaded/downloaded files
+- Huge text pastes are analysed for potential PII exfiltration.
+- Visits to malicious URLs (with the red advisory block screen) are logged and graded on severity.
+    - Bypasses of that advisory are logged and reported.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Upload content analysis | [More info to come] | OnFileAttachedEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileAttachedEnterpriseConnector&table-view=false) |
+| Download content analysis | [More info to come] | OnFileDownloadedEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileDownloadedEnterpriseConnector&table-view=false) |
+| Bulk text content analysis | [More info to come] | OnBulkDataEntryEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnBulkDataEntryEnterpriseConnector&table-view=false) |
+| Print content analysis | [More info to come] | OnPrintEnterpriseConnector | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnPrintEnterpriseConnector&table-view=false) |
+| Real time URL check | Chrome Enterprise Premium | EnterpriseRealTimeUrlCheckMode | [Link](https://admin.google.com/ac/chrome/settings/user?ref=browser&f=POLICY_NAME.OnFileDownloadedEnterpriseConnector&table-view=false) |
+
+## Chrome Updates
+
+Goals:
+- Get browsers to update within 48 hours of a release.
+- Have Chrome check every 300 mins to see if there's an update.
+- Use a friendly endpoint for checking (cacheable URL).
+- Use the extended stable channel for stability, and due to the volume of updates the Chrome team push on the latest channel (sometimes several times a day).
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Relaunch notification: Configuration | Show notification recommending relaunch | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/relaunch_notification_with_duration) |
+| Relaunch notification: Time Period (hours) | 48 | RelaunchHeadsUpPeriod | [Link](https://admin.google.com/ac/chrome/settings/user/details/relaunch_notification_with_duration) |
+| Relaunch notification: Initial quiet period (hours) | 4 | RelaunchNotification | [Link](https://admin.google.com/ac/chrome/settings/user/details/relaunch_notification_with_duration) |
+| Relaunch notification: Relaunch window start time | 00:00 | RelaunchNotificationPeriod | [Link](https://admin.google.com/ac/chrome/settings/user/details/relaunch_notification_with_duration) |
+| Relaunch notification: Relaunch window duration (minutes) | 1440 | RelaunchWindow | [Link](https://admin.google.com/ac/chrome/settings/user/details/relaunch_notification_with_duration) |
+| Auto-update check period (minutes) | 300 | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/auto_update_check_period_minutes_field_new) |
+| Cacheable URLs | Attempt to provide cache-friendly download URLs | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/download_preference_field) |
+| Google updater policy precedence | Cloud Google Updater policy override platform policy | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/omaha_policy_precedence_category_item) |
+| Suppress auto-update check: Start Time | 08:30 | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/updates_suppressed) |
+| Suppress auto-update check: Duration (minutes) | 120 | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/updates_suppressed) |
+| Chrome browser updates: Configuration | Allow updates | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/chrome_browser_updates) |
+| Chrome browser updates: Channel | Extended stable channel | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/chrome_browser_updates) |
+
+## Content
+
+Better user experience.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Show "Always Open" checkbox in external protocol dialog | User may select "Always allow" to skip all future confirmation prompts | ExternalProtocolDialogShowAlwaysOpenCheckbox | [Link](https://admin.google.com/ac/chrome/settings/user/details/external_protocol_dialog_show_always_open_checkbox_category_item) |
+
+## Enrollment Controls
+
+Populating data about the devices joining your org.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Asset identifier during enrollment | Users in this organization can provide asset ID and location during enrollment | ??? | [Link](https://admin.google.com/ac/chrome/settings/user/details/allow_populate_asset_identifier) |
+
+## Import Settings
+
+Right now this pertains to password imports. The password manager isn't working (if you follow the rule in the Security section below), but this is a good step to take anyway.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Import saved passwords | Disable import of saved passwords | ImportSavedPasswords | [Link](https://admin.google.com/ac/chrome/settings/user/details/import_saved_passwords_category_item) |
+
+## Remote Access
+
+Restricts possible avenues for scammers to get into user workstations. Every org should have a standard means of conducting remote support.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Firewall Traversal | Disable firewall traversal | RemoteAccessHostFirewallTraversal | [Link](https://admin.google.com/ac/chrome/settings/user/details/remote_access_host_firewall_traversal_category_item) |
+| Remote support connections | Prevent remote support connections | RemoteAccessHostAllowRemoteSupportConnections | [Link](https://admin.google.com/ac/chrome/settings/user/details/remote_access_host_allow_remote_support_connections_setting_group) |
+| Enterprise remote support connections | Prevent remote support connections from enterprise admins | RemoteAccessHostAllowEnterpriseRemoteSupportConnections | [Link](https://admin.google.com/ac/chrome/settings/user/details/remote_access_host_allow_enterprise_remote_support_connections_setting_group) |
+
+## Security
+
+Every org should have a centralised password solution (Bitwarden, 1Password, etc.), so it makes sense to reduce the chance of passwords stored in unknown locations.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Password Manager | Never allow the use of password manager | PasswordManagerEnabled | [Link](https://admin.google.com/ac/chrome/settings/user/details/password_manager) |
+
+## Sign-In Settings
+
+Ensures users are not syncing history, bookmarks, or passwords to a personal Gmail account.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Browser sign-in settings | Enable browser sign-in | BrowserSignin | [Link](https://admin.google.com/ac/chrome/settings/user/details/browser_signin_category_item) |
+| Separate profile for managed Google Identity | Force separate profile and forbid secondary managed accounts | ManagedAccountsSigninRestriction | [Link](https://admin.google.com/ac/chrome/settings/user/details/managed_accounts_signin_restriction_category_item) |
+| Enterprise profile separation | Enforce profile separation | ProfileSeparationSettings | [Link](https://admin.google.com/ac/chrome/settings/user/details/profile_separation_settings_setting_group) |
+| Profile separation data migration | Suggest to users to bring their existing data in the managed profile and give them a choice not to | ProfileSeparationDataMigrationSettings | [Link](https://admin.google.com/ac/chrome/settings/user/details/profile_separation_data_migration_settings_setting_group) |
+
+## Other Settings
+
+The logs sent are entirely anonymized and useful for helping the Chromium team resolve issues. Policy fetching is set to 300 seconds in the event you push a bad config and want to roll back before anyone receives it. Backing up Chrome data locally is a general no-no.
+
+| Policy | Setting | Shortcode | URL |
+|---|---|---|:-:|
+| Metrics Reporting | Send anonymous reports of usage and crash-related data to Google | MetricsReportingEnabled | [Link](https://admin.google.com/ac/chrome/settings/user/details/metrics_reporting_enabled_category_item) |
+| Policy fetch delay | 300 seconds | MaxInvalidationFetchDelay | [Link](https://admin.google.com/ac/chrome/settings/user/details/max_invalidation_fetch_delay_category_item) |
+| Backup of Google Chrome data | Prevent Google Chrome data from being included in backups | AllowChromeDataInBackups | [Link](https://admin.google.com/ac/chrome/settings/user/details/allow_chrome_data_in_backups_setting_group) |
+
+## URL Blocking
+
+Configurable [here](https://admin.google.com/ac/chrome/settings/user/details/url_blocking_category_item) or via shortcode `URLBlocklist`.
+
+<Note>
+This section is unique — it's a list of URLs rather than a single configurable option.
+</Note>
+
+| URL | Reason |
+|---|---|
+| `https://remotedesktop.google.com` | Chrome's Remote Desktop service (needed to get `chromeRemoteDesktopAppBlocked` to equal `true` in the [device trust connector](chrome://connectors-internals/)) |
+| `https://remotedesktop.corp.google.com` | Google Internal Chrome Remote Desktop service (also needed to get `chromeRemoteDesktopAppBlocked` to equal `true` in the [device trust connector](chrome://connectors-internals/)) |
