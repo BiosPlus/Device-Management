@@ -1,27 +1,137 @@
 ---
-title: "macOS Updates"
-description: "Best practice methodology for macOS software update management."
+title: "macOS Update Methodology"
+description: "A practical framework for managing macOS update rollouts in managed environments, covering timeline philosophy, enforcement tooling, and the tradeoffs involved."
 icon: "apple"
 ---
 
-## Pre-Sonoma (macOS 13 and older)
+## Core philosophy
 
-Pre-Sonoma macOS lacked a reliable MDM-driven update workflow. Apple's design is user-initiated first — MDMs could define an update schedule, but the actual kickoff still required user action.
+Two categories of tooling exist in most managed macOS environments: **native MDM enforcement** and **device trust / compliance platforms**. They are not competitors, and treating them as interchangeable leads to weaker coverage than using either one alone.
 
-The recommended approach is [Nudge](https://github.com/macadmins/nudge).
+The distinction is simple:
 
-- Deploy the Nudge Suite package from the [macadmins GitHub releases page](https://github.com/macadmins/nudge/releases).
-  - Scope deployment to a device group in your MDM with a condition matching OS version older than 14.0.
-- Configure a Nudge policy using one of the two options below (current as of 2024-01-31):
+> **Where a boundary is non-negotiable, enforce it natively. Where you want to guide users to a boundary, use your compliance platform. One draws the line, the other helps people reach it.**
 
-### Option One: The all-in-one (AIO) Nudge mobileconfig file
+Native enforcement (via DDM on modern Apple platforms) is the wall. It doesn't negotiate, it doesn't require user acknowledgement, and it doesn't rely on a user seeing a notification at the right time. Compliance tooling is the warning track leading up to that wall — it surfaces the expectation at the point of access, gives users the chance to self-correct, and creates an audit trail of acknowledgement.
 
-Deploy a mobileconfig file to Macs with a full configuration built in. The mobileconfig is available in the resources directory of this repository.
+Neither undermines the other. If you only use compliance tooling, motivated users can ignore it indefinitely until you manually escalate. If you only use native enforcement, you get forced reboots mid-afternoon and a wave of tickets. The combination is: compliance tooling earns the user their grace period, native enforcement is what happens when that grace period runs out.
 
-### Option Two: The web-based Nudge configuration
+---
 
-Deploy a mobileconfig file to Macs that points to a remote configuration source (e.g. a raw file hosted on GitHub). The mobileconfig and JSON configuration files are available in the resources directory of this repository.
+## Soak period: don't enforce day zero
 
-## Sonoma and newer (macOS 14+)
+A new macOS release should not immediately trigger your enforcement pipeline. The first 5 to 7 days after a release exist to:
 
-{/* TODO: Document the MDM-native update enforcement workflow introduced in Sonoma */}
+- Confirm no widespread regressions in your environment
+- Allow time for internal application owners to validate compatibility
+- Give early adopters (voluntary updaters) a chance to surface edge cases before the policy bites everyone else
+- Ensure your MDM vendor has updated its support for the new OS version
+
+For point releases (e.g., 15.x to 15.x.1), a shorter soak of 3 to 5 days is usually fine. For major releases (new macOS generation), consider 2 to 4 weeks of observation before starting the enforcement clock. The exact threshold depends on your risk appetite and security posture, but the principle is the same: wait for signal, then enforce.
+
+<Tip>
+If you're seeing reports of widespread issues in the MacAdmins Slack or community forums in the first 48 hours, those are your early warning system. Pay attention.
+</Tip>
+
+---
+
+## Recommended rollout timeline
+
+Below is a structure that works well for minor/point releases in environments with a compliance obligation (e.g., ISO 27001 A.8.8, SOC 2, Essential Eight). Adjust as appropriate for your org.
+
+| Phase | Timeframe | Action |
+|---|---|---|
+| Release + soak | Days 0–7 | Monitor, test internally, no enforcement |
+| Awareness window opens | Day 7 | Compliance check goes live in **reporting mode**; begin surfacing to users |
+| Grace period begins | Day 7 | Users begin receiving notices at point of access |
+| Native DDM enforcement set | Days 7–10 | DDM configured with enforcement deadline 2–3 weeks out; caching begins |
+| Enforcement deadline | Days 28–35 | DDM enforces; compliance check moves to **blocking mode** if not already |
+
+A 4-week window from initial awareness to enforcement is a defensible "timely manner" under most compliance frameworks, without being so compressed that it creates operational chaos. Shorter windows are appropriate for critical CVEs with known active exploitation.
+
+---
+
+## How native DDM enforcement works
+
+When you set an enforcement deadline via DDM, **the operating system itself drives the notification cadence** — not your MDM. Your MDM sets the parameters; macOS owns the experience. This means the notifications are native, trusted, and cannot be silently suppressed by a user in the same way a third-party alert can.
+
+The escalation pattern looks like this:
+
+- **More than 24 hours before deadline:** One notification per day
+- **Within 24 hours of deadline:** Notifications appear hourly, bypassing Do Not Disturb
+- **Within 1 hour of deadline:** Notifications at 30-minute intervals, then every 10 minutes
+
+If a device is offline or powered off when the deadline passes, enforcement triggers **60 minutes after the device powers on and checks in** with the MDM. Devices that never come online before the deadline are not forgotten — enforcement is deferred, not skipped.
+
+<Note>
+Document the escalation ramp clearly in your user-facing comms. The notification frequency in that final hour is noticeable and will generate tickets if users haven't been told what to expect.
+</Note>
+
+---
+
+## On forced reboots
+
+Forced reboots are acceptable where adequate notice has been given. If a user has received escalating notifications over several weeks and has chosen not to act, enforcement at the deadline — including a forced restart — is a predictable and proportionate consequence, not an ambush.
+
+The key word is *adequate*. Enforcement without prior notice is a support incident waiting to happen. Enforcement after a well-communicated grace period is policy running as intended.
+
+Two practical considerations regardless of approach:
+
+- **Timezone awareness:** If your enforcement deadline is a fixed UTC timestamp, verify what that translates to in each region you operate in. A 6 pm deadline in one timezone can land in the middle of a working day elsewhere.
+- **Pre-communicate the consequence:** Users should know before the deadline that a forced reboot is on the table, not discover it in the moment. If your update notices only say "you must update by X", add "your device will restart automatically if this is not completed".
+
+---
+
+## Offline devices and ghost records
+
+In most environments with turnover, a portion of "non-compliant" devices are actually deprovisioned machines, loaners, or devices belonging to people on extended leave. These will skew your compliance reporting if left unaddressed.
+
+Before reporting on compliance numbers, run a pass to identify devices that haven't checked in within a reasonable window (typically 14 to 30 days). These should be:
+
+- Flagged for review
+- Excluded from your active compliance count
+- Actioned for deprovisioning if the associated user has offboarded
+
+If ghost devices are included in your denominator, your "percentage compliant" metric is artificially deflated — causing unnecessary escalation and making it harder to identify genuine laggards.
+
+---
+
+## Communicating to users
+
+A meaningful portion of users don't actively engage with company Slack channels, internal wikis, or IT announcements. They open their laptop, do their work, and close it again. That's normal.
+
+Your comms strategy shouldn't rely on a Slack announcement as the primary enforcement signal. It's fine as a supplement, but the source of truth for user awareness should be something they encounter at the point of access — not something they have to happen to see in a channel.
+
+When you do communicate, tell users:
+
+- What version is required and why
+- The exact deadline, in their local timezone if possible
+- What happens if they miss it (loss of access, not forced reboot — see above)
+- Where to go if they hit an issue (and make this genuinely easy)
+
+Keep it short. If your update notice requires more than a paragraph to explain, you've buried the lede.
+
+---
+
+## A note on defining "timely manner"
+
+Compliance frameworks that mandate patching in a "timely manner" are intentionally vague. The appropriate window depends on severity, exploitability, and organisational context — and the framework authors know they can't define all cases up front.
+
+The practical implication is that **you need to define it**, document that definition, and apply it consistently. A written policy that says "macOS updates will be enforced within 28 days of release for standard updates, and within 7 days for updates addressing actively exploited vulnerabilities" gives you something to point to. An undocumented informal process does not.
+
+If you're audited, "we handle it case by case" is a weaker position than "here is our policy, here is evidence we followed it."
+
+---
+
+## Summary
+
+| Principle | Guidance |
+|---|---|
+| Soak before enforcing | Wait at least 5–7 days for point releases; 2+ weeks for major versions |
+| Enforcement window | 28 days from awareness to deadline is defensible for standard updates |
+| Native DDM | Use for hard enforcement; owns notification cadence; covers offline devices |
+| Compliance tooling | Use for guided enforcement and point-of-access friction before the deadline |
+| Forced reboots | Acceptable where adequate notice was given; pre-communicate the consequence |
+| Ghost devices | Filter pre-audit; they skew metrics and mask real non-compliance |
+| User comms | Keep it short, surface it at point of access, state the consequence clearly |
+| Define "timely" | Write it down; vague is a liability in an audit |
