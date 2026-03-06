@@ -33,9 +33,9 @@
               {
                 "group": "macOS",
                 "pages": [
-                  "docs/onboarding/macos/setup-assistant",
-                  "docs/onboarding/macos/post-setup",
-                  "docs/onboarding/macos/authentication"
+                  "onboarding/macos/setup-assistant",
+                  "onboarding/macos/post-setup",
+                  "onboarding/macos/authentication"
                 ]
               }
             ]
@@ -43,9 +43,9 @@
           {
             "group": "Getting started",
             "pages": [
-              "docs/getting-started/index",
-              "docs/getting-started/quickstart",
-              "docs/getting-started/development"
+              "getting-started/index",
+              "getting-started/quickstart",
+              "getting-started/development"
             ]
           },
           {
