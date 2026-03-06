@@ -27,8 +27,8 @@
               "google-workspace/troubleshooting",
               {
                 "group": "Google Chrome",
+                "icon": "chrome",
                 "pages": [
-                  "google-workspace/google-chrome/index",
                   "google-workspace/google-chrome/managed-browser-settings"
                 ]
               }
