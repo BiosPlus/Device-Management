@@ -19,6 +19,12 @@
             ]
           },
           {
+            "group": "iOS & iPadOS",
+            "pages": [
+              "ios-ipados/os-updates"
+            ]
+          },
+          {
             "group": "Google Workspace",
             "pages": [
               "google-workspace/index",

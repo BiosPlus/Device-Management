@@ -1,0 +1,190 @@
+---
+title: "iOS & iPadOS Update Methodology"
+description: "A practical framework for managing iOS and iPadOS update rollouts across mixed environments — covering user-assigned devices, shared kiosk devices, supervision requirements, and enforcement tradeoffs."
+icon: "mobile"
+---
+
+## Core philosophy
+
+iOS and iPadOS environments are rarely uniform. Most organisations run a mix of **user-assigned devices** (employee iPhones and iPads) and **shared or kiosk devices** (check-in iPads, reception desks, conference rooms, point-of-sale terminals). These two categories have fundamentally different update risk profiles, and treating them identically will cause problems in one direction or the other.
+
+The guiding principle:
+
+> **Kiosk and shared devices can and should be updated faster, on your schedule. User devices require more care — enough notice to avoid mid-day disruptions, but a real deadline that gets enforced.**
+
+For shared devices, there's no individual user to disrupt. Updates can run overnight, silently, on a schedule you control. For user devices, the constraint is different: users are in the middle of things, data may be unsaved, and the update notification cadence can generate significant support load if not managed well.
+
+Both tracks still require a soak period. Neither should receive day-zero enforcement.
+
+---
+
+## Supervision is a prerequisite
+
+Nearly all meaningful MDM-driven update controls on iOS and iPadOS require the device to be **supervised**. Unsupervised devices can receive a software update recommendation via MDM, but a user can ignore it indefinitely.
+
+With supervision, you gain:
+
+- Silent background installation of updates (no user interaction required)
+- The ability to defer updates from appearing in Settings for up to 90 days
+- Scheduled update installation windows (specify time of day and day of week)
+- Forced installation with a deadline, after which the device will update automatically
+
+If your kiosk devices are not supervised, address that before building a compliant update process. It is not possible to enforce updates reliably on unsupervised devices.
+
+<Note>
+Supervision is set during enrolment via Apple Configurator or an Automated Device Enrolment (ADE/DEP) profile. It cannot be applied retroactively without wiping the device.
+</Note>
+
+---
+
+## Soak period: don't enforce day zero
+
+The same principle that applies to macOS applies here: don't trigger enforcement the moment a release lands. iOS and iPadOS releases can carry app compatibility issues, regressions in device-specific hardware (camera, Face ID, NFC), or MDM vendor lag.
+
+| Release type | Recommended soak |
+|---|---|
+| Point release (e.g., 18.x to 18.x.1) | 3–5 days |
+| Minor release (e.g., 18.1 to 18.2) | 5–7 days |
+| Major release (new iOS/iPadOS generation) | 2–4 weeks |
+| Rapid Security Response (RSR) | 24–48 hours, or sooner if actively exploited |
+
+During the soak window, monitor MacAdmins Slack, Apple's release notes, and your MDM vendor's changelog. Pay particular attention to reports from devices similar to your fleet (specific models, iOS versions, enrolled app sets).
+
+<Tip>
+For kiosk devices running a single app or limited app set, app compatibility is the primary soak concern. Test your check-in or LOB app on the new OS version before pushing it fleet-wide.
+</Tip>
+
+---
+
+## Device classification: two tracks
+
+Define your device categories explicitly in policy. A workable minimum is two tracks:
+
+**Track 1 — User-assigned devices**
+Personal or individually assigned iPhones and iPads. The user has active sessions, notifications, and in-progress work. Updates should be guided with user visibility, not silently forced, until a deadline.
+
+**Track 2 — Shared and kiosk devices**
+Devices that serve a function rather than a person. Check-in kiosks, shared iPads, display terminals, reception devices. These should be updated on a maintenance schedule, silently, outside business hours. No user communication required.
+
+Some environments have a third track for executive or high-sensitivity devices where additional validation is warranted before rollout. This is optional and depends on organisational context.
+
+---
+
+## Recommended rollout timeline
+
+### Track 1 — User-assigned devices
+
+| Phase | Timeframe | Action |
+|---|---|---|
+| Release + soak | Days 0–7 | Monitor, test internally, no enforcement |
+| Awareness window opens | Day 7 | MDM update recommendation sent; users begin seeing prompts |
+| Deferral window active | Days 7–28 | Users can schedule update; compliance check in reporting mode |
+| Enforcement deadline | Day 28–35 | MDM sends `InstallASAP` command; compliance check moves to blocking mode |
+
+For standard point releases in compliance-obligated environments (SOC 2, ISO 27001, Essential Eight), a 28-day window from initial notification to hard enforcement is defensible. Shorter windows are appropriate for updates addressing actively exploited CVEs.
+
+### Track 2 — Shared and kiosk devices
+
+| Phase | Timeframe | Action |
+|---|---|---|
+| Release + soak | Days 0–5 | Internal testing, app compatibility validation |
+| Scheduled update | Day 5–7 | MDM pushes update during defined maintenance window |
+| Confirmation | Day 8 | Verify all kiosk devices report updated OS version |
+
+Kiosk devices should not linger on old OS versions. The absence of a user means there's no reason to delay beyond the soak period.
+
+---
+
+## Scheduling updates on kiosk devices
+
+For supervised shared devices, most MDMs allow you to schedule software updates to install only during a defined time window — for example, between 02:00 and 04:00 local time. This allows updates to install without any visible disruption during operating hours.
+
+When configuring a scheduled update:
+
+- Set the window during the lowest-traffic period for that device's location (overnight for most environments)
+- Confirm the time zone configured on the device is correct — a 2 AM window defined in UTC will land at different hours depending on where the device is
+- Ensure the device is on power and connected to Wi-Fi during the window. Devices on battery or cellular may defer installation
+- If your MDM supports it, use `InstallForceRestart` for kiosk devices rather than the softer install modes — these devices have no open user sessions to protect
+
+After a scheduled update pass, build a confirmation step into your process: pull a report of kiosk devices still on the old OS version and investigate rather than assuming the command was received.
+
+---
+
+## How MDM update commands work
+
+iOS and iPadOS MDM update commands are not the same as DDM enforcement on macOS. The available command modes are:
+
+| Command mode | Behaviour |
+|---|---|
+| `DownloadOnly` | Downloads the update in the background; user must still initiate install |
+| `InstallASAP` | Installs at the next convenient time; prompts user if device is in use |
+| `NotifyOnly` | Sends a notification to the user; no automatic action |
+| `InstallForceRestart` | Forces installation and restart immediately; supervised devices only |
+| `InstallLater` | Schedules install for the defined maintenance window |
+
+For user-assigned devices, `InstallASAP` during the grace period and a scheduled enforcement deadline is the standard approach. For kiosk devices after the soak period, `InstallForceRestart` during an overnight window is appropriate.
+
+<Warning>
+`InstallForceRestart` on a device that is actively in use will interrupt the session immediately. Reserve it for maintenance windows on kiosk devices, or for deadline enforcement on user devices where adequate notice has already been given.
+</Warning>
+
+---
+
+## Rapid Security Responses
+
+Apple's Rapid Security Responses (RSRs) are lightweight patches that can be applied without a full OS update. They address active security vulnerabilities and are distributed faster than standard releases.
+
+RSRs are distinct from full OS updates and require their own handling:
+
+- **Do not apply the standard soak timeline to RSRs addressing actively exploited vulnerabilities.** 24–48 hours of monitoring is usually sufficient before pushing fleet-wide.
+- RSRs are supervised-device compatible and can be pushed silently via MDM
+- Some RSRs can be removed if they cause regressions — Apple provides a mechanism to revert. Plan for this possibility in your testing window.
+- RSRs do not reset your enforcement timeline for the underlying OS version. A device can be RSR-current but OS-non-compliant simultaneously.
+
+Track RSRs separately in your compliance reporting, or document clearly how they factor into your OS currency metrics.
+
+---
+
+## Offline and uncontactable devices
+
+Kiosk devices that have been offline for an extended period are a compliance reporting problem before they become an enforcement problem. A check-in iPad that's been in a storage cupboard since a venue closure will appear in your non-compliant count but can't receive MDM commands.
+
+Establish a check-in window threshold: devices that haven't contacted your MDM in more than 14–30 days should be:
+
+- Flagged in reporting as "stale" rather than "non-compliant"
+- Investigated for their physical whereabouts
+- Deprovisioned if the associated location or use case is no longer active
+
+For user devices, extended offline periods are usually explained by leave, travel, or device replacement. Cross-reference with HR data before escalating on a device that hasn't checked in.
+
+---
+
+## Communicating to users (Track 1)
+
+User-assigned device holders should receive clear, direct communication before enforcement:
+
+- What version is required (exact version number, not just "the latest")
+- The deadline, in their local timezone
+- How to update (Settings > General > Software Update)
+- What happens if they miss the deadline — access restriction or forced update, not vague consequences
+- Who to contact if the update fails or causes issues
+
+Keep it to one paragraph. Users on managed devices are often non-technical; assume they know nothing about the update except what you tell them. If your update notice requires reading time, it won't be read.
+
+Do not rely on Slack announcements or intranet posts as the primary channel. Supplement with point-of-access prompts from your compliance platform where possible.
+
+---
+
+## Summary
+
+| Principle | Guidance |
+|---|---|
+| Two-track approach | Separate policies for user-assigned and shared/kiosk devices |
+| Supervision required | Kiosk enforcement is not reliable without supervised enrolment |
+| Soak before enforcing | 3–5 days for point releases; 2–4 weeks for major versions |
+| Kiosk update window | Schedule silently overnight after soak; confirm compliance after |
+| User device enforcement | 28-day window from notification to deadline is defensible for standard updates |
+| RSRs | Faster timeline; treat separately from OS version compliance |
+| MDM command modes | Use `InstallForceRestart` for kiosk maintenance; `InstallASAP` for user deadlines |
+| Offline devices | Filter stale devices from compliance metrics; investigate before escalating |
+| User comms | State the version, the deadline, the consequence; keep it short |
