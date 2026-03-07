@@ -1,0 +1,105 @@
+---
+title: "[Platform/Product] [Topic] Methodology"
+description: "A practical framework for [doing X] in [context], covering [key theme 1], [key theme 2], and the tradeoffs involved."
+icon: "[mintlify icon name]"
+---
+
+## Core philosophy
+
+[2–3 sentences framing the central tension. Name the two things people often treat as competing, and explain why that framing causes problems. Do not start with "In today's world" or similar.]
+
+[One sentence stating what the distinction actually is.]
+
+> **[The guiding principle in one or two sentences. Should name the tradeoff explicitly and resolve it.]**
+
+[2–3 sentences on what happens if you lean too hard on one side, then the other. Then one sentence on what the combination gives you.]
+
+---
+
+## [First named concern — e.g. "Soak period: don't enforce day zero"]
+
+[What to do, stated directly. Then why — including what goes wrong if you skip this step.]
+
+[Concrete parameters: numbers, timeframes, thresholds. Not vague guidance.]
+
+<Tip>
+[Optional: a practical shortcut or community resource relevant to this step.]
+</Tip>
+
+---
+
+## [Second named concern — e.g. "Recommended rollout timeline"]
+
+[Brief framing sentence. Then the table.]
+
+| Phase | Timeframe | Action |
+|---|---|---|
+| [Phase name] | [Days X–Y] | [What happens] |
+| [Phase name] | [Days X–Y] | [What happens] |
+| [Phase name] | [Days X–Y] | [What happens] |
+
+[One sentence on why this timeline is defensible under common compliance frameworks, and when a shorter window is appropriate.]
+
+---
+
+## How [the relevant technology] works
+
+[Explain the mechanism, not the policy. What does the platform actually do? What triggers what? What are the escalation patterns or command modes?]
+
+[If there are multiple modes or states, use a table:]
+
+| [Mode/State] | [Behaviour] |
+|---|---|
+| [Name] | [What it does] |
+| [Name] | [What it does] |
+
+<Note>
+[An important operational caveat — something that will generate support tickets or audit findings if missed.]
+</Note>
+
+---
+
+## [Edge case section — e.g. "Offline devices and ghost records"]
+
+[Name the failure mode. Explain how it manifests in practice — usually as skewed reporting or missed enforcement.]
+
+[What to do before reporting: the filter or review step that removes the noise.]
+
+- [Specific action 1]
+- [Specific action 2]
+- [Specific action 3]
+
+[One sentence on what happens to your metrics if you skip this.]
+
+---
+
+## Communicating to users
+
+[One or two sentences on how users actually behave — establish that passive channels don't work.]
+
+[What the communication must include:]
+
+- What [version/action] is required and why
+- The exact deadline, in their local timezone if possible
+- What happens if they miss it ([specific consequence] — not vague)
+- Where to go if they hit an issue (and make this genuinely easy)
+
+Keep it short. If your notice requires more than a paragraph to explain, you've buried the lede.
+
+---
+
+<Note>
+[A compliance or audit framing note — what the relevant framework says, why it's vague, and what that means in practice. Always end with: if you're audited, a written policy you followed is stronger than an undocumented informal process.]
+</Note>
+
+---
+
+## Summary
+
+| Principle | Guidance |
+|---|---|
+| [Key principle] | [One-line guidance] |
+| [Key principle] | [One-line guidance] |
+| [Key principle] | [One-line guidance] |
+| [Key principle] | [One-line guidance] |
+| [Key principle] | [One-line guidance] |
