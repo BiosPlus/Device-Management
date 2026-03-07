@@ -10,7 +10,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Methodology",
         "groups": [
           {
             "group": "macOS",
@@ -31,6 +31,18 @@
             ]
           },
           {
+            "group": "Google Chrome",
+            "icon": "chrome",
+            "pages": [
+              "google-workspace/google-chrome/chrome-update-channels"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          {
             "group": "Google Workspace",
             "pages": [
               "google-workspace/index",
@@ -41,8 +53,7 @@
                 "group": "Google Chrome",
                 "icon": "chrome",
                 "pages": [
-                  "google-workspace/google-chrome/managed-browser-settings",
-                  "google-workspace/google-chrome/chrome-update-channels"
+                  "google-workspace/google-chrome/managed-browser-settings"
                 ]
               }
             ]
