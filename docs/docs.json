@@ -25,6 +25,12 @@
             ]
           },
           {
+            "group": "Endpoints",
+            "pages": [
+              "endpoints/package-management"
+            ]
+          },
+          {
             "group": "Google Workspace",
             "pages": [
               "google-workspace/index",

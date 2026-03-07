@@ -1,0 +1,125 @@
+---
+title: "Endpoint Package Management"
+description: "A methodology for managing software packages on enterprise endpoints — balancing security, consistency, and operational velocity without ceding control to community-driven automation."
+icon: "box-open"
+---
+
+## Core philosophy
+
+Enterprise endpoints are not personal machines. The software running on them touches internal systems, handles credentials, processes sensitive data, and connects to shared infrastructure. Treating a package deployment as a trivial operation — one that can be delegated to a community-maintained repository and an automated pipeline — is how supply chain risk enters the fleet without anyone signing off on it.
+
+The distinction matters:
+
+> **Knowing that a new version exists is the start of a process, not the end of one. Automation is appropriate for detection and ticket creation; human review is required before anything reaches production.**
+
+Automating from community sources without review creates a fleet that can be modified at any time by a pipeline nobody is actively watching, based on data from a source the organisation does not control. That is not velocity — it is unpredictability disguised as efficiency.
+
+---
+
+## Why community sources are not a deployment mechanism
+
+Package managers like `winget` and tools backed by community-maintained repositories are built for developer convenience. The governance model, trust hierarchy, and verification standards were never designed to meet the bar that production endpoints require.
+
+The structural weaknesses are well-documented. Shortly after `winget`'s stable release, its registry was flooded with duplicate, malformed, and overwriting manifests before review processes could catch them. Even in normal operation, community repositories depend on maintainers — contributors or ISVs — keeping definitions current. When a maintainer abandons a package, it can remain for years. If that namespace is later claimed by a malicious actor, the path to a supply chain compromise is straightforward. There is also a documented lag between a vendor publishing a release and the corresponding package definition being updated; deploying from stale manifests is not a theoretical risk.
+
+Apple's notarisation requirement is sometimes cited as a reason macOS-side tooling carries less risk. This overstates what notarisation provides. It means Apple scanned the binary at the time of submission against known threats using automated checks — not that the binary is safe indefinitely, nor that the package definition pointing to it is accurate. Documented cases exist of known malware passing notarisation. The argument for manual vetting applies across platforms.
+
+<Note>
+These risks do not mean community repositories should be avoided entirely — they are useful signal sources. The issue is using them as an automated deployment trigger.
+</Note>
+
+---
+
+## Monitoring without automating
+
+Staying informed about new software versions is valuable. Community repositories and vendor release pages are the right places to track what is available. Monitoring them is encouraged; deploying from them without review is not.
+
+Acceptable uses of community repository data:
+
+- Tracking version availability for software in your approved catalogue
+- Alerting when a new major or minor version is published
+- Cross-referencing vendor release notes against community package definitions
+- Feeding the vetting queue with structured ticket data
+
+When a monitoring tool detects a new version, the appropriate response is to raise a ticket in your ITSM platform — not to initiate deployment. That ticket should capture the package name and newly detected version, the current deployed version across the fleet, a direct link to the vendor's official release notes, the community package definition for cross-reference, the detection date, and any CVE references associated with the release.
+
+---
+
+## Manual review before deployment
+
+An IT team member reviews the ticket against a defined checklist before any deployment is authorised. Skipping this step removes the only control that can catch issues before they reach the fleet at scale.
+
+**Vendor release verification.** Confirm the version exists on the vendor's official release page or changelog, independent of any community source. Do not approve a version that cannot be independently verified through the vendor's own channels.
+
+**Package integrity.** Where checksums or signatures are published by the vendor, validate them against the package definition being used for deployment. If deployment tooling does not validate integrity natively, that gap warrants a separate remediation track.
+
+**Release maturity.** Evaluate how recently the version was released. A patch released 24 hours ago that resolves a critical CVE may warrant expedited review. A feature release published yesterday does not. A week of community feedback is meaningful signal that automated pipelines cannot replicate.
+
+**Known issues.** Check vendor forums, support pages, and community discussion for early regressions or compatibility reports. Issues that emerge in the first few days after a release are consistently underrepresented in automated tooling.
+
+**Fleet compatibility.** Confirm the update is compatible with the OS versions, hardware configurations, and other software in your environment. This is especially relevant for software that interacts with security tooling, kernel extensions, or low-level system components.
+
+**Business impact.** Confirm there are no pending events — deployments, migrations, change freezes — that would make the timing of this update disruptive.
+
+---
+
+## Staged rollout
+
+Approved packages are not deployed fleet-wide immediately. A staged rollout limits the blast radius of an issue that escaped review, and creates an observation window before broader deployment.
+
+| Stage | Target | Hold period |
+|---|---|---|
+| Stage 1 | IT team devices | 48 hours minimum |
+| Stage 2 | Volunteer early adopters (5–10% of fleet) | 5 business days |
+| Stage 3 | Remaining fleet | After no critical issues reported in Stage 2 |
+
+For security updates addressing actively exploited vulnerabilities, hold periods can be shortened or collapsed at the discretion of the approving engineer, with documentation in the ticket. The ticket created at detection should be updated throughout to reflect who reviewed it, what was verified, the staged deployment timeline, and any issues observed post-deployment.
+
+This record is not bureaucracy for its own sake. It is the minimum needed to reconstruct what changed if something breaks, and to demonstrate due diligence in the event of a security audit.
+
+---
+
+## Deployment timeframes by update type
+
+The timeframes below are a baseline. Adjust based on the nature of the update and your organisation's risk tolerance.
+
+| Update type | Review target | Full fleet target |
+|---|---|---|
+| Non-security (feature / minor version) | Within 5 business days of detection | 4–6 weeks from detection |
+| Security patch (disclosed CVE) | Within 2 business days | Within 10 business days |
+| Critical security (actively exploited) | Same business day where possible | Immediately following approval; stages compressed |
+| Major version | Treat as a migration, not an update | Not before 6 weeks; longer if prior version is still supported |
+
+Major version updates warrant a separate evaluation process, including testing in a non-production environment and a longer community feedback window. Deploying a major version bump fleet-wide in under six weeks is inadvisable unless the prior version is approaching end of life or carries known security exposure.
+
+---
+
+## What belongs in the approved catalogue
+
+The catalogue is not a convenience store. It is a list of software the organisation has explicitly decided to support and take responsibility for. It should contain software that:
+
+- Has a defined business purpose and user base within the organisation
+- Has a vendor with a clear release and support lifecycle
+- Has been evaluated for compatibility with endpoint security tooling
+- Has a known, stable installation path that can be deployed without user interaction
+
+Software that does not meet these criteria should go through a separate request and evaluation process before being added. Requests that arrive outside this process should be routed to it, not accommodated ad hoc.
+
+<Note>
+Compliance frameworks including ISO 27001 A.8.8, SOC 2, and the Essential Eight require software to be patched in a "timely manner." None define exactly what that means — because context matters. The practical requirement is that *you* define it, document it, and apply it consistently. A written policy you followed is a stronger position in an audit than an undocumented informal process.
+</Note>
+
+---
+
+## Summary
+
+| Principle | Guidance |
+|---|---|
+| Community sources as signal, not trigger | Monitor for version availability; never automate deployment from community repositories |
+| Automated ticketing | New version detection raises a ticket; deployment requires a separate approval step |
+| Vendor verification | Confirm every release against official vendor channels before approving |
+| Release maturity | Allow community feedback to accumulate before deploying non-critical updates |
+| Staged rollout | IT devices first, then early adopters, then fleet; hold for 5 business days between stages |
+| Major versions as migrations | Treat separately; test in non-production; 6-week minimum before full fleet |
+| Define "timely" | Document your SLAs per update type; apply them consistently; audit trail in every ticket |
+| Catalogue discipline | Only centrally managed software with a clear owner, lifecycle, and compatibility baseline |
