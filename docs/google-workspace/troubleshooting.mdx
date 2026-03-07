@@ -43,7 +43,8 @@ Use this if you don't want to leave Jane with editor access to files now owned b
 gam csv ownedbyoffboarded.csv gam user "~Owner" delete drivefileacl "~id" jane.parker@domain.tld
 ```
 
-### Notes
+<Note>
+Files still present in Jane's My Drive are not affected by this process.
 
-- Files still present in Jane's My Drive are not affected by this process.
-- If a folder ID appears in the CSV from Step 1, Step 2 will scan that folder recursively. Only files where Jane is currently the owner are affected.
+If a folder ID appears in the CSV from Step 1, Step 2 will scan that folder recursively. Only files where Jane is currently the owner are affected.
+</Note>
