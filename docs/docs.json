@@ -35,7 +35,8 @@
                 "group": "Google Chrome",
                 "icon": "chrome",
                 "pages": [
-                  "google-workspace/google-chrome/managed-browser-settings"
+                  "google-workspace/google-chrome/managed-browser-settings",
+                  "google-workspace/google-chrome/chrome-update-channels"
                 ]
               }
             ]
