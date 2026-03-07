@@ -1,101 +1,62 @@
 ---
-title: Update channels
-description: A practical advisory on Chrome's update channel model, version semantics, and why Extended Stable is the correct default for managed macOS fleets.
-tags: [chrome, browser, mdm, compliance, macos, enterprise]
-author: macadmins-advisory
+title: "Chrome Update Channels"
+description: "A practical framework for managing Chrome updates in enterprise environments, covering channel selection, version semantics, restart enforcement, and compliance measurement."
+icon: "chrome"
 ---
 
-# Core Philosophy
+## Core philosophy
 
-Chrome ships across four update channels: Canary, Dev, Beta, and Stable — with an additional tier called **Extended Stable** designed specifically for enterprise deployment. This advisory makes the case for Extended Stable as the default channel for managed macOS fleets, explains Chrome's version semantics in detail, and provides a framework for measuring and enforcing browser compliance accurately.
+Most organisations managing Chrome face a version of the same miscalibration: they either stay on Stable and absorb the escalating churn of an accelerating release cadence, or they ignore Chrome updates altogether and call it stable. Neither is right.
 
-> **Note:** As of March 2026, Google has announced that Chrome Stable will move from a four-week to a **two-week** major release cycle beginning with Chrome 153 on September 8, 2026. Extended Stable remains on its existing eight-week cycle. This change significantly increases the operational case for Extended Stable in enterprise environments. Relevant sections below are updated to reflect this.
+The real tension is between *security coverage* and *operational predictability* — and it's a false trade-off. Extended Stable exists precisely to resolve it. It is not a slower-patching channel. It backports Critical, High, and Medium severity fixes weekly. What it removes is the feature churn and release frequency that make Stable increasingly difficult to manage.
 
----
+> **Use Extended Stable as your fleet default, define compliance at the major milestone level, and enforce it through forced restarts — not channel switching. That combination gives you genuine security coverage without the remediation noise.**
 
-## Understanding Chrome's Version Model
-
-Chrome version strings follow the format:
-
-```
-MAJOR.MINOR.PATCH.BUILD
-```
-
-For example: `124.0.6367.207`
-
-These four components are not equal in significance, and conflating them is a common source of compliance measurement errors in enterprise environments.
-
-### Major Milestone (`MAJOR`)
-
-This is the number that matters for security and compliance purposes. Each milestone is a meaningful release boundary — it is where security patches, CVE fixes, and significant feature changes land.
-
-When assessing whether a device is running a compliant version of Chrome, the major milestone is the correct signal to evaluate.
-
-### Minor, Patch, and Build (`MINOR.PATCH.BUILD`)
-
-The remaining components are incremental build identifiers. In practice, `MINOR` is almost always `0`. The `PATCH` component reflects stabilisation builds within a milestone, and `BUILD` changes frequently — often multiple times per week — as Google iterates on the browser engine.
-
-These sub-milestone builds are **not security releases** in the traditional sense. They are frequently the result of continuous real-world testing and A/B experimentation that Google runs across its browser user base. A device running `124.0.6367.133` rather than `124.0.6367.207` is not meaningfully less secure — both are M124 builds.
-
-Compliance checks that compare against the exact latest build number will almost always report false positives, because the gap between any given device's installed build and the current tip-of-tree build is a near-constant condition across a fleet — not a remediation gap.
-
-### Component Updates
-
-Chrome also ships a category of updates that do not change the version string at all and do not require a browser restart. These include:
-
-- **CRLSets** — Google's certificate revocation mechanism, updated continuously out-of-band via the component updater
-- **Safe Browsing data** — Threat intelligence lists updated in the background
-- **Component extensions** — Parts of the browser security stack that ship independently of the main release cadence
-
-A device that appears "out of date" by build number may still be receiving active security protections through these component channels. This further underscores why exact build comparison is an unreliable compliance signal.
+If you track Stable without enforcing restarts, you have the appearance of a fast-patching posture and the reality of a fleet where half the browsers haven't restarted in two weeks. If you track Extended Stable with restart enforcement, you have predictable milestone transitions and a compliance definition you can actually measure.
 
 ---
 
-## The Two Enterprise-Relevant Channels
+## Extended Stable is the correct default
 
-### Stable
+Google ships Chrome on four channels — Canary, Dev, Beta, and Stable — with **Extended Stable** as a separate enterprise-facing tier on Windows and Mac. For managed fleets, only Stable and Extended Stable are operationally relevant.
 
-Prior to September 2026, Stable released a new major milestone every four weeks. Beginning with Chrome 153 (September 8, 2026), Stable moves to a **two-week** major release cycle across desktop, Android, and iOS. This change is intended to deliver smaller, more incremental milestones more frequently.
+Stable will move to a **two-week** major release cadence beginning with Chrome 153 on 8 September 2026 (previously four weeks). Extended Stable remains on an **eight-week** cycle regardless of this change. That gap matters: under a two-week Stable cycle, a device that misses one update window is already a full milestone behind. Under Extended Stable, the same window produces no compliance gap.
 
-For managed fleets, a two-week major release cadence substantially increases the enforcement burden: more frequent milestones mean more frequent forced restart windows and shorter remediation timelines before devices fall multiple milestones behind.
+<Note>
+Google's own documentation notes that Stable "remains the most secure choice" and that complex security changes which are difficult to backport may only land in Stable. Organisations with an elevated threat profile should weigh this explicitly. For the majority of enterprise environments, the security trade-off is narrow and the operational benefit is substantial.
+</Note>
 
-Google's own guidance notes that Stable "remains the most secure choice and should be used if security is a larger concern than maintenance costs." For environments where that trade-off applies, Stable remains appropriate. For the majority of enterprise environments where operational stability and low end-user friction are the primary concerns, Extended Stable is the better fit.
+The case for Extended Stable in practice:
 
-### Extended Stable
+- **Eight-week milestone cadence** — longer windows between forced restart cycles, less end-user friction
+- **Stability buffer** — each Extended Stable milestone reflects weeks of Stable-channel real-world exposure before it becomes your baseline; regressions surface before they reach your fleet
+- **Compliance headroom** — a longer milestone window makes it realistic to achieve fleet-wide compliance before the next milestone arrives
 
-Extended Stable releases a new major milestone every **eight weeks**, regardless of the Stable cadence change. It receives weekly security refreshes backporting Critical, High, and Medium severity fixes from the Stable branch wherever technically possible. It is explicitly designed by Google for enterprise deployment scenarios and is available on Windows and Mac only (not iOS or Android).
-
-The value of Extended Stable is threefold:
-
-1. **Reduced update friction** — An eight-week cadence gives users more time between forced browser restarts without meaningful security trade-offs, since backported patches cover Critical, High, and Medium severity CVEs throughout the milestone window.
-2. **Stability buffer** — Each Extended Stable milestone reflects multiple weeks of Stable-channel real-world exposure before it becomes the baseline. Edge-case regressions are far more likely to have surfaced and been addressed.
-3. **Accurate compliance headroom** — With a longer milestone window, a well-configured enforcement policy can achieve genuine fleet-wide compliance without the constant remediation churn that will accompany a two-week Stable cycle.
-
-There is a common misconception that Extended Stable is a slower-patching channel and therefore less secure. Google's documentation is explicit that Critical, High, and Medium severity security fixes are backported on a weekly basis. What Extended Stable does not receive between milestones are new features and lower-severity changes — a trade-off that is appropriate and often desirable in enterprise environments.
-
-It is worth being direct about the trade-off: Google states that Stable is the most secure option. Extended Stable does not guarantee feature-for-feature security parity; complex security changes that are difficult to backport may only land in Stable. Organisations with an elevated threat profile or stringent regulatory requirements should weigh this explicitly.
-
-See Google's official documentation: [Extended Stable channel](https://support.google.com/chrome/a/answer/16942104)
+Extended Stable is not available on iOS or Android. For those platforms, Stable is the only enterprise-deployable channel.
 
 ---
 
-## Defining Compliant in Practice
+## Version semantics: what actually matters for compliance
 
-A practical compliance definition for a managed Chrome fleet on Extended Stable:
+Chrome version strings follow the format `MAJOR.MINOR.PATCH.BUILD` — for example, `134.0.6998.89`. These four components are not equal in significance, and conflating them is the primary source of compliance measurement errors in managed environments.
 
-> **A device is compliant if it is running the current Extended Stable major milestone, and has restarted Chrome at least once since that milestone became available.**
+**Major milestone (`MAJOR`)** is the only component that signals security and compliance state. This is where CVE fixes, security patches, and meaningful changes land. When assessing whether a device is running a compliant version, the major milestone is the correct signal.
 
-The restart requirement is important. Chrome updates silently in the background — the updated binary is downloaded and staged without user interaction. The update does not take effect until the browser is restarted. A device can be "pending update" for an extended period if the user simply never closes Chrome.
+**Minor, Patch, and Build (`MINOR.PATCH.BUILD`)** are incremental build identifiers. `MINOR` is almost always `0`. `PATCH` reflects stabilisation builds within a milestone. `BUILD` changes frequently — sometimes multiple times per week — as Google iterates on the browser engine and runs A/B experiments across its user base.
 
-This means the primary remediation lever for Chrome compliance is not channel switching — it is enforcing browser restarts.
+Sub-milestone builds are not security releases in the traditional sense. A device on `134.0.6998.89` is not meaningfully less secure than one on `134.0.6998.165` — both are M134 builds. Any compliance check comparing against the exact latest build number will produce near-permanent false positives, because the gap between a given device's installed build and the current tip-of-tree is a constant condition across the fleet — not a remediation gap.
+
+Chrome also ships **component updates** that change no version string and require no restart — CRLSets (certificate revocation), Safe Browsing data, and component extensions. A device that looks out of date by build number may still be receiving active security protections through these channels.
 
 ---
 
-## Enforcing Restarts via Google Admin Console
+## Restart enforcement: the actual remediation lever
 
-Chrome provides a native enforcement mechanism for relaunch via the [Relaunch Notification](https://chromeenterprise.google/policies/#RelaunchNotification) family of policies, configurable in Google Admin Console under **Chrome Browser > Settings > Updates**.
+Chrome updates silently in the background. The updated binary is downloaded and staged without user interaction. The update does not take effect until the browser is restarted. A device can remain on a stale milestone for an extended period if the user simply never closes Chrome.
 
-The three modes available are:
+This means the primary compliance lever is not channel switching — it is enforcing browser restarts.
+
+Chrome provides a native restart enforcement mechanism via the [RelaunchNotification](https://chromeenterprise.google/policies/#RelaunchNotification) family of policies, configurable in Google Admin Console under **Chrome Browser > Settings > Updates**.
 
 | Mode | Behaviour |
 |---|---|
@@ -103,48 +64,86 @@ The three modes available are:
 | Recommended relaunch | Persistent notification. Users can dismiss indefinitely. |
 | **Force relaunch** | Chrome restarts automatically after the configured window expires. Users are warned in advance. |
 
-For compliance purposes, **Force relaunch** is the only mode that produces a deterministic outcome.
+**Force relaunch** is the only mode that produces a deterministic compliance outcome.
 
-### Recommended Settings
-
-The following configuration is a reasonable starting point for most enterprise deployments. Adjust the relaunch window and initial quiet period to match your organisation's working hours and change management norms.
+A reasonable starting configuration for most enterprise deployments:
 
 | Policy | Recommended Value | Notes |
 |---|---|---|
 | `RelaunchNotification` | `2` (Required) | Enables forced restart after the deadline |
 | `RelaunchNotificationPeriod` | `259200000` | 72-hour enforcement window in milliseconds |
-| `RelaunchWindow` > `entries` > `start` | `{ "hour": 17, "minute": 0 }` | Prefer end-of-business for minimal disruption |
-| `RelaunchWindow` > `entries` > `duration_mins` | `720` | 12-hour window covers evening through early morning |
+| `RelaunchWindow` > `start` | `{ "hour": 17, "minute": 0 }` | Prefer end-of-business to minimise disruption |
+| `RelaunchWindow` > `duration_mins` | `720` | 12-hour window covers evening through early morning |
 
-A 72-hour window is generally a reasonable default. It provides enough notice for users to save work and choose a convenient restart time, while still producing consistent fleet-wide compliance within a predictable timeframe following each milestone release.
-
-If your organisation's risk posture requires a tighter window, 48 hours is workable. Below 24 hours begins to create meaningful end-user friction.
+A 72-hour window gives users enough time to save work and choose a convenient restart, while ensuring consistent fleet-wide compliance within a predictable timeframe following each milestone release. 48 hours is workable for tighter risk postures. Below 24 hours creates meaningful end-user friction.
 
 ---
 
-## Measuring Compliance Correctly
+## Compliance measurement: scoping the check correctly
 
-If you are using a compliance or device management platform to report Chrome version compliance, ensure that your checks are evaluating the **major milestone**, not the full version string.
+If you are using a device management or compliance platform to report Chrome version compliance, the check must evaluate the **major milestone only** — not the full version string.
 
-A check that flags any device not running today's exact build will produce a near-permanent false-positive condition across your fleet, since sub-milestone builds update continuously and the population of devices on tip-of-tree at any given moment will always be a small fraction of the whole.
+A correctly scoped check:
 
-A correctly scoped check should:
+1. Identifies the current Extended Stable major milestone from Google's official release data
+2. Compares enrolled devices against that milestone number only
+3. Flags devices that are one or more full milestones behind as requiring remediation
 
-1. Identify the current Extended Stable major milestone from Google's official release data
-2. Compare enrolled devices against that milestone number only
-3. Flag devices that are one or more full milestones behind as requiring remediation
+Devices on the current milestone but behind on build number are operationally current and should not generate compliance alerts. A check that flags any device not running today's exact build will produce a near-permanent false-positive condition — the population of devices on tip-of-tree at any given moment will always be a small fraction of the whole.
 
-Devices on the current milestone but behind on build number are operationally current and should not generate compliance alerts.
+<Tip>
+Google publishes official Extended Stable release versions at [chromiumdash.appspot.com](https://chromiumdash.appspot.com/releases?platform=Mac). Use this as your source of truth for compliance baseline definitions, not third-party version trackers.
+</Tip>
 
 ---
 
-## Summary Recommendations
+## Ghost devices and skewed metrics
 
-- Deploy Chrome on the **Extended Stable** channel for all managed endpoints
-- Define compliance at the **major milestone level**, not the full version string
-- Enforce updates via **Google Admin Console forced relaunch policy**, not third-party device compliance tooling
-- Set a relaunch window of **72 hours** with a preferred restart window aligned to your organisation's end-of-business hours
-- Do not treat sub-milestone build variance as a compliance gap
+In any managed environment with turnover, a portion of "non-compliant" devices are actually deprovisioned machines, loaners, or devices belonging to people on extended leave. These inflate your non-compliance count and obscure the real picture.
+
+Before reporting on compliance figures, exclude devices that haven't checked in within a reasonable window — typically 14 to 30 days. These should be:
+
+- Flagged for review
+- Excluded from your active compliance denominator
+- Actioned for deprovisioning if the associated user has offboarded
+
+If ghost devices remain in your reporting, your compliance percentage is artificially deflated, causing unnecessary escalation and making it harder to identify genuine laggards who need follow-up.
+
+---
+
+## Communicating to users
+
+Chrome's silent background update model means most users don't know an update is pending until the Force Relaunch notification appears. That is not the moment to explain what's happening — that notification should feel expected, not surprising.
+
+When a new Extended Stable milestone is approaching enforcement, communicate to users:
+
+- What action is required (restart Chrome) and why
+- The exact deadline, in their local timezone if possible
+- What happens if they miss it (Chrome will restart automatically — not loss of access, but unscheduled)
+- Where to go if they hit an issue after the restart
+
+Keep it to one paragraph. If you need more space to explain why Chrome needs to restart, you've overcomplicated the message.
+
+---
+
+<Note>
+Compliance frameworks that mandate browser patching in a "timely manner" — ISO 27001 A.8.8, SOC 2 CC7.1, Essential Eight — are intentionally vague about what "timely" means in the context of sub-milestone build variance. The practical implication is that you need to define it. A written policy that states "Chrome is considered compliant when running the current Extended Stable major milestone with a restart applied within 72 hours of availability" gives you something to point to in an audit. An undocumented informal process does not.
+</Note>
+
+---
+
+## Summary
+
+| Principle | Guidance |
+|---|---|
+| Channel selection | Use Extended Stable for all managed endpoints; Stable is correct only for elevated threat profiles |
+| Compliance definition | Compliant = current Extended Stable major milestone, with restart applied |
+| Version semantics | Evaluate the major milestone only; sub-milestone build variance is not a compliance gap |
+| Restart enforcement | Use Force Relaunch mode; 72-hour window with end-of-business restart preference |
+| Compliance checks | Scope checks to major milestone; exact build comparison produces near-permanent false positives |
+| Ghost devices | Filter devices inactive for 14–30 days before reporting; they skew the denominator |
+| User comms | One paragraph: what to do, by when, what happens if they don't, where to get help |
+| Define "timely" | Write it down; vague is a liability in an audit |
 
 ---
 
@@ -152,10 +151,8 @@ Devices on the current milestone but behind on build number are operationally cu
 
 - [Extended Stable channel (Google)](https://support.google.com/chrome/a/answer/16942104)
 - [Chrome browser release channels (Google)](https://support.google.com/chrome/a/answer/9027636)
-- [Chrome release cycle (Chromium docs)](https://chromium.googlesource.com/chromium/src/+/master/docs/process/release_cycle.md)
-- [Chrome 153 two-week release cycle announcement](https://developer.chrome.com/blog/chrome-two-week-release)
-- [Chrome Browser Cloud Management](https://support.google.com/chrome/a/answer/9116814)
-- [RelaunchNotification policy](https://chromeenterprise.google/policies/relaunch-notification/)
+- [RelaunchNotification policy](https://chromeenterprise.google/policies/#RelaunchNotification)
 - [RelaunchNotificationPeriod policy](https://chromeenterprise.google/policies/#RelaunchNotificationPeriod)
-- [RelaunchWindow policy](https://chromeenterprise.google/policies/relaunch-window/)
+- [RelaunchWindow policy](https://chromeenterprise.google/policies/#RelaunchWindow)
+- [Chrome release schedule (Chromium Dashboard)](https://chromiumdash.appspot.com/releases?platform=Mac)
 - [CRLSets (Chromium project)](https://dev.chromium.org/Home/chromium-security/crlsets)
