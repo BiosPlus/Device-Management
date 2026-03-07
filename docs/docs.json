@@ -13,18 +13,6 @@
         "tab": "Methodology",
         "groups": [
           {
-            "group": "macOS",
-            "pages": [
-              "macos/os-updates"
-            ]
-          },
-          {
-            "group": "iOS & iPadOS",
-            "pages": [
-              "ios-ipados/os-updates"
-            ]
-          },
-          {
             "group": "Endpoints",
             "pages": [
               "endpoints/package-management"
@@ -36,6 +24,18 @@
             "pages": [
               "google-workspace/google-chrome/chrome-update-channels"
             ]
+          },
+          {
+            "group": "iOS & iPadOS",
+            "pages": [
+              "ios-ipados/os-updates"
+            ]
+          },
+          {
+            "group": "macOS",
+            "pages": [
+              "macos/os-updates"
+            ]
           }
         ]
       },
@@ -46,16 +46,16 @@
             "group": "Google Workspace",
             "pages": [
               "google-workspace/index",
-              "google-workspace/groups",
-              "google-workspace/user-offboarding",
-              "google-workspace/troubleshooting",
               {
                 "group": "Google Chrome",
                 "icon": "chrome",
                 "pages": [
                   "google-workspace/google-chrome/managed-browser-settings"
                 ]
-              }
+              },
+              "google-workspace/groups",
+              "google-workspace/troubleshooting",
+              "google-workspace/user-offboarding"
             ]
           }
         ]
